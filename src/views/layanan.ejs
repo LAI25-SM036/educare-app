@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/heroicons@1.0.6/umd/heroicons.min.js"></script>
+  <link rel="icon" href="img/icon.png" type="image/png">
+  <title>Educare - Layanan</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #FFF0CE, #fefaf1);
+    }
+
+    .animate-slide-in {
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .animate-scale-in {
+      animation: scaleIn 0.7s ease-out;
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-sans">
+  <div class="flex flex-col min-h-screen">
+    <!-- Sticky Header -->
+    <header class="bg-[#0C356A] text-[#FFF0CE] shadow-lg sticky top-0 z-20">
+      <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-4">
+        <!-- Logo + Brand -->
+        <div class="flex items-center space-x-3">
+          <img src="img/logo.png" alt="Logo" width="120" height="40"
+            class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
+        </div>
+        <!-- Navigation -->
+        <nav id="nav-menu" class="hidden md:flex font-medium text-base font-poppins">
+          <ul
+            class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 animate-scale-in w-full md:w-auto bg-[#0C356A] md:bg-transparent p-4 md:p-0 absolute md:static top-16 left-0">
+            <li>
+              <a href="/"
+                class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-[#0174BE] transition duration-300 text-[#FFF0CE] font-semibold text-sm md:text-base">
+                <i class="fas fa-home text-base md:text-lg"></i>
+                <span>Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="/layanan"
+                class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-[#0174BE] transition duration-300 text-[#FFF0CE] font-semibold text-sm md:text-base">
+                <i class="fas fa-chalkboard-teacher text-base md:text-lg"></i>
+                <span>Layanan</span>
+              </a>
+            </li>
+            <li>
+              <a href="/info"
+                class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-[#0174BE] transition duration-300 text-[#FFF0CE] font-semibold text-sm md:text-base">
+                <i class="fas fa-info-circle text-base md:text-lg"></i>
+                <span>Info</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- Hamburger Menu for Mobile -->
+        <button id="hamburger" class="md:hidden text-[#FFF0CE] focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+      <!-- Layanan EduCare Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <section class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h1 class="text-3xl sm:text-4xl font-extrabold mb-4 text-[#0C356A]">Layanan EduCare</h1>
+          <p class="text-[#0C356A] text-base sm:text-lg leading-relaxed">
+            Pilih layanan yang sesuai dengan kebutuhan sekolah Anda. Setiap layanan dilengkapi dengan teknologi AI dan
+            machine learning untuk hasil yang optimal.
+          </p>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-7xl mx-auto">
+          <!-- Card 1 -->
+          <article
+            class="bg-white rounded-lg shadow-md border-t-8 border-[#0174BE] p-4 sm:p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="bg-[#0174BE] p-3 sm:p-4 rounded-md text-white text-base sm:text-xl flex items-center justify-center"
+                  style="width:48px; height:48px;">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <h2 class="text-[#0C356A] font-semibold text-base sm:text-lg select-none">
+                  Prediksi Nilai Siswa
+                </h2>
+              </div>
+              <p class="text-[#0C356A] text-xs sm:text-sm leading-relaxed mb-4">
+                Analisis prediktif untuk memperkirakan performa akademik siswa berdasarkan data historis dan
+                faktor-faktor yang mempengaruhi hasil belajar.
+              </p>
+              <h3 class="font-semibold text-[#0C356A] mb-2 text-sm sm:text-base select-none">Fitur Utama:</h3>
+              <div class="grid grid-cols-2 gap-x-6 sm:gap-x-8 gap-y-1 text-sm">
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Model regresi canggih</li>
+                  <li>Visualisasi hasil</li>
+                </ul>
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Akurasi tinggi</li>
+                  <li>Export laporan</li>
+                </ul>
+              </div>
+            </div>
+            <a href="/layanan/prediksi"
+              class="mt-4 sm:mt-6 bg-[#0174BE] text-[#FFF0CE] font-semibold py-2 sm:py-3 rounded-md w-full flex items-center justify-center space-x-2 hover:bg-[#0C356A] transition">
+              <span>Gunakan Layanan</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </article>
+
+          <!-- Card 2 -->
+          <article
+            class="bg-white rounded-lg shadow-md border-t-8 border-[#EE4343] p-4 sm:p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="bg-[#EE4343] p-3 sm:p-4 rounded-md text-white text-base sm:text-xl flex items-center justify-center"
+                  style="width:48px; height:48px;">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 class="text-[#0C356A] font-semibold text-base sm:text-lg select-none">
+                  Klasifikasi Siswa At-Risk
+                </h2>
+              </div>
+              <p class="text-[#0C356A] text-xs sm:text-sm leading-relaxed mb-4">
+                Deteksi dini siswa yang memerlukan perhatian khusus berdasarkan metrik presisi, recall, dan akurasi
+                untuk intervensi yang tepat waktu.
+              </p>
+              <h3 class="font-semibold text-[#0C356A] mb-2 text-sm sm:text-base select-none">Fitur Utama:</h3>
+              <div class="grid grid-cols-2 gap-x-6 sm:gap-x-8 gap-y-1 text-sm">
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Deteksi dini</li>
+                  <li>Alert system</li>
+                </ul>
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Algoritma klasifikasi</li>
+                  <li>Rencana intervensi</li>
+                </ul>
+              </div>
+            </div>
+            <a href="/layanan/klasifikasi"
+              class="mt-4 sm:mt-6 bg-[#0174BE] text-[#FFF0CE] font-semibold py-2 sm:py-3 rounded-md w-full flex items-center justify-center space-x-2 hover:bg-[#0C356A] transition">
+              <span>Gunakan Layanan</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </article>
+
+          <!-- Card 3 -->
+          <article
+            class="bg-white rounded-lg shadow-md border-t-8 border-[#21C45D] p-4 sm:p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="bg-[#21C45D] p-3 sm:p-4 rounded-md text-white text-base sm:text-xl flex items-center justify-center"
+                  style="width:48px; height:48px;">
+                  <i class="fas fa-user-friends"></i>
+                </div>
+                <h2 class="text-[#0C356A] font-semibold text-base sm:text-lg select-none">
+                  Segmentasi Siswa
+                </h2>
+              </div>
+              <p class="text-[#0C356A] text-xs sm:text-sm leading-relaxed mb-4">
+                Pengelompokan siswa berdasarkan karakteristik dan kebutuhan belajar yang serupa menggunakan algoritma
+                clustering yang canggih.
+              </p>
+              <h3 class="font-semibold text-[#0C356A] mb-2 text-sm sm:text-base select-none">Fitur Utama:</h3>
+              <div class="grid grid-cols-2 gap-x-6 sm:gap-x-8 gap-y-1 text-sm">
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Clustering otomatis</li>
+                  <li>Grup pembelajaran</li>
+                </ul>
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Profil siswa</li>
+                  <li>Strategi khusus</li>
+                </ul>
+              </div>
+            </div>
+            <a href="/layanan/segmentasi"
+              class="mt-4 sm:mt-6 bg-[#0174BE] text-[#FFF0CE] font-semibold py-2 sm:py-3 rounded-md w-full flex items-center justify-center space-x-2 hover:bg-[#0C356A] transition">
+              <span>Gunakan Layanan</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </article>
+
+          <!-- Card 4 -->
+          <article
+            class="bg-white rounded-lg shadow-md border-t-8 border-[#FFC436] p-4 sm:p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center space-x-4 mb-4">
+                <div
+                  class="bg-[#FFC436] p-3 sm:p-4 rounded-md text-white text-base sm:text-xl flex items-center justify-center"
+                  style="width:48px; height:48px;">
+                  <i class="fas fa-award"></i>
+                </div>
+                <h2 class="text-[#0C356A] font-semibold text-base sm:text-lg select-none">
+                  Sistem Rekomendasi SPP
+                </h2>
+              </div>
+              <p class="text-[#0C356A] text-xs sm:text-sm leading-relaxed mb-4">
+                Sistem rekomendasi pembebasan SPP berdasarkan analisis komprehensif data akademik, ekonomi, dan sosial
+                siswa.
+              </p>
+              <h3 class="font-semibold text-[#0C356A] mb-2 text-sm sm:text-base select-none">Fitur Utama:</h3>
+              <div class="grid grid-cols-2 gap-x-6 sm:gap-x-8 gap-y-1 text-sm">
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Analisis multi-faktor</li>
+                  <li>Transparansi</li>
+                </ul>
+                <ul class="list-disc list-inside text-[#0C356A] space-y-1 text-xs sm:text-sm">
+                  <li>Kriteria objektif</li>
+                  <li>Dokumentasi lengkapi</li>
+                </ul>
+              </div>
+            </div>
+            <a href="/layanan/rekomendasi"
+              class="mt-4 sm:mt-6 bg-[#0174BE] text-[#FFF0CE] font-semibold py-2 sm:py-3 rounded-md w-full flex items-center justify-center space-x-2 hover:bg-[#0C356A] transition">
+              <span>Gunakan Layanan</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </article>
+        </section>
+      </section>
+
+      <!-- Cara Menggunakan Layanan Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
+        <section class="mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 text-center">
+          <h2 class="text-[#0C356A] font-extrabold text-lg sm:text-xl mb-3">
+            Cara Menggunakan Layanan
+          </h2>
+          <p class="text-[#0C356A] text-xs sm:text-sm mb-8 sm:mb-10 max-w-xl mx-auto">
+            Setiap layanan EduCare mengikuti alur kerja yang sederhana dan terstruktur untuk kemudahan penggunaan.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 text-[#0C356A] text-xs sm:text-sm font-semibold">
+            <!-- Step 1 -->
+            <div>
+              <div
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0C356A] text-[#FFF0CE] font-bold flex items-center justify-center mx-auto mb-3">
+                1
+              </div>
+              <h3 class="mb-2 font-semibold text-center text-sm sm:text-base">Upload Data</h3>
+              <p class="font-normal text-center text-xs sm:text-sm max-w-[220px] mx-auto">
+                Upload file Excel dengan data siswa sesuai template yang disediakan
+              </p>
+            </div>
+            <!-- Step 2 -->
+            <div>
+              <div
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0174BE] text-[#FFF0CE] font-bold flex items-center justify-center mx-auto mb-3">
+                2
+              </div>
+              <h3 class="mb-2 font-semibold text-center text-sm sm:text-base">Proses Analisis</h3>
+              <p class="font-normal text-center text-xs sm:text-sm max-w-[220px] mx-auto">
+                Sistem akan memproses data menggunakan algoritma machine learning
+              </p>
+            </div>
+            <!-- Step 3 -->
+            <div>
+              <div
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFC436] text-[#0C356A] font-bold flex items-center justify-center mx-auto mb-3">
+                3
+              </div>
+              <h3 class="mb-2 font-semibold text-center text-sm sm:text-base">Hasil & Download</h3>
+              <p class="font-normal text-center text-xs sm:text-sm max-w-[220px] mx-auto">
+                Lihat hasil analisis dan download laporan lengkap dalam format Excel
+              </p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0C356A] text-[#FFF0CE]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div class="flex flex-col items-start">
+          <a class="flex items-center space-x-2 mb-4" href="#">
+            <img src="img/logo.png" alt="Logo" width="120" height="40"
+              class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
+          </a>
+          <p class="text-xs sm:text-sm leading-relaxed max-w-xs">
+            Platform web terpadu yang dirancang untuk mengatasi tantangan sekolah menengah dalam pengelolaan data siswa
+            dan perencanaan intervensi belajar menggunakan pendekatan data-driven.
+          </p>
+        </div>
+        <div class="flex flex-col items-start">
+          <h3 class="font-semibold text-base sm:text-lg mb-4">Navigasi</h3>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li><a class="hover:underline" href="/">Home</a></li>
+            <li><a class="hover:underline" href="/layanan">Layanan</a></li>
+            <li><a class="hover:underline" href="/info">Info</a></li>
+          </ul>
+        </div>
+        <div class="flex flex-col items-start">
+          <h3 class="font-semibold text-base sm:text-lg mb-4">Kontak</h3>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-envelope text-[#FFC436]"></i>
+              <span>info@educare.com</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-phone-alt text-[#FFC436]"></i>
+              <span>+62 21 1234 5678</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-map-marker-alt text-[#FFC436]"></i>
+              <span>Jakarta, Indonesia</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto border-t border-[#0174BE] text-center py-4 text-xs sm:text-sm text-[#FFF0CE]">
+        © 2025 EduCare. All rights reserved.
+      </div>
+    </footer>
+
+    <!-- JavaScript for Hamburger Menu -->
+    <script>
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('nav-menu');
+
+      hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('hidden');
+      });
+    </script>
+  </div>
+</body>
+
+</html>

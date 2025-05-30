@@ -14,8 +14,21 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get('/kalkulator', (req, res) => {
-  res.render('kalkulator')
+app.get('/layanan', (req, res) => {
+  res.render('layanan')
+})
+
+app.get('/layanan/prediksi', (req, res) => {
+  res.render('prediksi')
+})
+app.get('/layanan/klasifikasi', (req, res) => {
+  res.render('klasifikasi')
+})
+app.get('/layanan/segmentasi', (req, res) => {
+  res.render('segmentasi')
+})
+app.get('/layanan/rekomendasi', (req, res) => {
+  res.render('rekomendasi')
 })
 
 app.get('/info', (req, res) => {

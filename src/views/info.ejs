@@ -4,25 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Teach: Solusi cepat dan akurat untuk menghitung pajak PPh Pasal 21. Dapatkan panduan perpajakan lengkap.">
-  <meta name="keywords" content="kalkulator pajak, PPh 21, perpajakan Indonesia, hitung pajak">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/heroicons@1.0.6/umd/heroicons.min.js"></script>
   <link rel="icon" href="img/icon.png" type="image/png">
-  <title>Teach - Info</title>
+  <title>Educare - Info</title>
   <style>
     body {
-      font-family: "Poppins", sans-serif;
-    }
-
-    .bayarpajakku-font {
-      font-family: "Lobster", sans-serif;
-      font-weight: 400;
-      font-style: normal;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #FFF0CE, #fefaf1);
     }
 
     .animate-slide-in {
@@ -70,440 +61,395 @@
         opacity: 1;
       }
     }
-
-    /* Horizontal Connecting Line for Desktop */
-    .timeline-container::before {
-      content: "";
-      position: absolute;
-      top: 1.75rem;
-      left: 1.75rem;
-      right: 1.75rem;
-      height: 2px;
-      background: linear-gradient(to right, #5a3219, #e5e7eb);
-      z-index: 0;
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .timeline-container::before {
-        display: block;
-      }
-    }
-
-    /* Rotate Chevron on FAQ Open */
-    details[open] .chevron {
-      transform: rotate(180deg);
-      transition: transform 0.3s ease;
-    }
-
-    .chevron {
-      transition: transform 0.3s ease;
-    }
-
-    /* Gradient Underline for Headings */
-    .heading-underline::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(to right, #5a3219, #7f5539);
-      margin: 0.5rem auto;
-    }
   </style>
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="font-sans">
   <div class="flex flex-col min-h-screen">
-    <!-- Header -->
-    <header class="bg-[#5a3219] text-white shadow-lg sticky top-0 z-20">
-      <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+    <!-- Sticky Header -->
+    <header class="bg-[#0C356A] text-[#FFF0CE] shadow-lg sticky top-0 z-20">
+      <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-4">
         <!-- Logo + Brand -->
         <div class="flex items-center space-x-3">
-          <img src="img/logo.png" alt="Logo" width="150" height="50" class="object-contain animate-scale-in">
+          <img src="img/logo.png" alt="Logo" width="120" height="40"
+            class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
         </div>
         <!-- Navigation -->
-        <nav class="hidden md:flex font-medium text-lg">
-          <ul class="flex space-x-6 animate-scale-in">
+        <nav id="nav-menu" class="hidden md:flex font-medium text-base font-poppins">
+          <ul
+            class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 animate-scale-in w-full md:w-auto bg-[#0C356A] md:bg-transparent p-4 md:p-0 absolute md:static top-16 left-0">
             <li>
               <a href="/"
-                class="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-[#7f5539] transition duration-300">
-                <i class="fas fa-home"></i>
+                class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-[#0174BE] transition duration-300 text-[#FFF0CE] font-semibold text-sm md:text-base">
+                <i class="fas fa-home text-base md:text-lg"></i>
                 <span>Home</span>
               </a>
             </li>
             <li>
-              <a href="/kalkulator"
-                class="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-[#7f5539] transition duration-300">
-                <i class="fas fa-calculator"></i>
-                <span>Kalkulator</span>
+              <a href="/layanan"
+                class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-[#0174BE] transition duration-300 text-[#FFF0CE] font-semibold text-sm md:text-base">
+                <i class="fas fa-chalkboard-teacher text-base md:text-lg"></i>
+                <span>Layanan</span>
               </a>
             </li>
             <li>
               <a href="/info"
-                class="flex items-center space-x-2 px-4 py-2 rounded-md bg-[#7f5539]">
-                <i class="fas fa-info-circle"></i>
+                class="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-[#0174BE] transition duration-300 text-[#FFF0CE] font-semibold text-sm md:text-base">
+                <i class="fas fa-info-circle text-base md:text-lg"></i>
                 <span>Info</span>
               </a>
             </li>
           </ul>
         </nav>
+        <!-- Hamburger Menu for Mobile -->
+        <button id="hamburger" class="md:hidden text-[#FFF0CE] focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
       </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow pb-20 md:pb-0">
-      <!-- FAQ Section -->
-      <section class="py-16 sm:py-20 bg-gradient-to-r from-[#fffcf2] to-gray-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 animate-fade-in">
-              <h2
-                class="text-3xl sm:text-4xl font-bold text-[#5a3219] text-center mb-4 animate-slide-in heading-underline">
-                Pertanyaan yang Sering Diajukan (FAQ)
-              </h2>
-              <p class="text-center text-gray-600 mb-8 sm:mb-10 text-base sm:text-lg">
-                Temukan jawaban atas pertanyaan umum tentang perhitungan pajak
-              </p>
-              <div class="space-y-4">
-                <details class="border-b border-gray-200 py-4 last:border-b-0">
-                  <summary class="text-lg sm:text-xl font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
-                    Apa itu PPh 21?
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6 text-[#5a3219] chevron">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </summary>
-                  <p class="text-gray-600 mt-3 text-base sm:text-lg">
-                    PPh Pasal 21 adalah pajak penghasilan yang dikenakan atas
-                    penghasilan yang diterima oleh individu dari pekerjaan,
-                    jasa, atau kegiatan lainnya. Pajak ini biasanya dipotong
-                    langsung oleh pemberi kerja.
-                  </p>
-                </details>
-                <details class="border-b border-gray-200 py-4 last:border-b-0">
-                  <summary class="text-lg sm:text-xl font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
-                    Apa itu PTKP (Penghasilan Tidak Kena Pajak)?
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6 text-[#5a3219] chevron">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </summary>
-                  <p class="text-gray-600 mt-3 text-base sm:text-lg">
-                    PTKP adalah batas penghasilan tertentu yang tidak
-                    dikenakan pajak. Nilainya tergantung pada status
-                    pernikahan dan jumlah tanggungan, seperti Rp54 juta untuk
-                    wajib pajak lajang tanpa tanggungan.
-                  </p>
-                </details>
-                <details class="border-b border-gray-200 py-4 last:border-b-0">
-                  <summary class="text-lg sm:text-xl font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
-                    Bagaimana cara menghitung PKP?
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6 text-[#5a3219] chevron">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </summary>
-                  <p class="text-gray-600 mt-3 text-base sm:text-lg">
-                    PKP (Penghasilan Kena Pajak) dihitung dengan mengurangkan
-                    penghasilan bruto tahunan dengan PTKP dan pengurangan
-                    lainnya (seperti biaya jabatan). PKP = Penghasilan Bruto -
-                    PTKP - Pengurangan.
-                  </p>
-                </details>
-                <details class="border-b border-gray-200 py-4 last:border-b-0">
-                  <summary class="text-lg sm:text-xl font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
-                    Berapa tarif PPh 21?
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6 text-[#5a3219] chevron">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </summary>
-                  <p class="text-gray-600 mt-3 text-base sm:text-lg">
-                    Tarif PPh 21 bersifat progresif: 5% untuk PKP hingga Rp60
-                    juta, 15% untuk Rp60 juta-Rp250 juta, 25% untuk Rp250
-                    juta-Rp500 juta, dan 30% untuk di atas Rp500 juta
-                    (berdasarkan peraturan terbaru).
-                  </p>
-                </details>
-                <details class="border-b border-gray-200 py-4 last:border-b-0">
-                  <summary class="text-lg sm:text-xl font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
-                    Apakah hasil kalkulator ini 100% akurat?
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6 text-[#5a3219] chevron">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </summary>
-                  <p class="text-gray-600 mt-3 text-base sm:text-lg">
-                    Hasil kalkulator ini sangat akurat berdasarkan peraturan
-                    pajak terbaru, namun hanya untuk estimasi. Untuk
-                    kepastian, selalu konfirmasikan dengan sumber resmi
-                    seperti Direktorat Jenderal Pajak.
-                  </p>
-                </details>
-                <details class="border-b border-gray-200 py-4 last:border-b-0">
-                  <summary class="text-lg sm:text-xl font-semibold text-gray-800 cursor-pointer flex justify-between items-center">
-                    Apa yang dimaksud dengan Biaya Jabatan?
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-6 h-6 text-[#5a3219] chevron">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </summary>
-                  <p class="text-gray-600 mt-3 text-base sm:text-lg">
-                    Biaya Jabatan adalah pengurangan pajak sebesar 5% dari
-                    penghasilan bruto (maksimal Rp6 juta per tahun) untuk
-                    karyawan, yang digunakan untuk menghitung PKP.
-                  </p>
-                </details>
-              </div>
-            </div>
-          </div>
+    <main class="flex-grow">
+      <!-- Informasi & Bantuan Section -->
+      <section class="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <h1 class="text-[#0C356A] font-extrabold text-3xl sm:text-4xl text-center leading-tight">
+          Informasi & Bantuan
+        </h1>
+        <p class="text-center text-[#0C356A] text-base sm:text-lg font-normal mt-4 max-w-xl mx-auto leading-relaxed">
+          Temukan informasi lengkap tentang fitur EduCare, panduan penggunaan, dan jawaban atas pertanyaan yang sering
+          diajukan.
+        </p>
+
+        <h2
+          class="text-[#0C356A] font-extrabold text-lg sm:text-xl mt-12 sm:mt-16 mb-6 flex items-center justify-center space-x-3">
+          <i class="far fa-question-circle text-xl sm:text-2xl text-[#0174BE]"></i>
+          <span>Frequently Asked Questions (FAQ)</span>
+        </h2>
+
+        <section class="space-y-4">
+          <details
+            class="bg-white rounded-lg p-4 sm:p-6 cursor-pointer border border-transparent hover:border-[#0C356A] transition">
+            <summary
+              class="text-[#0C356A] font-semibold text-sm sm:text-base list-none flex justify-between items-center">
+              Apa itu EduCare?
+              <i class="fas fa-chevron-down text-[#0C356A] transition-transform duration-300"></i>
+            </summary>
+            <p class="mt-3 text-[#0C356A] text-xs sm:text-sm leading-relaxed">
+              EduCare adalah platform edukasi yang menyediakan berbagai layanan untuk membantu siswa dan guru dalam
+              proses belajar mengajar.
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-lg p-4 sm:p-6 cursor-pointer border border-transparent hover:border-[#0C356A] transition">
+            <summary
+              class="text-[#0C356A] font-semibold text-sm sm:text-base list-none flex justify-between items-center">
+              Layanan apa saja yang tersedia di EduCare?
+              <i class="fas fa-chevron-down text-[#0C356A] transition-transform duration-300"></i>
+            </summary>
+            <p class="mt-3 text-[#0C356A] text-xs sm:text-sm leading-relaxed">
+              EduCare menyediakan layanan seperti materi pembelajaran, latihan soal, prediksi nilai, dan konsultasi
+              pendidikan.
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-lg p-4 sm:p-6 cursor-pointer border border-transparent hover:border-[#0C356A] transition">
+            <summary
+              class="text-[#0C356A] font-semibold text-sm sm:text-base list-none flex justify-between items-center">
+              Format data apa yang diperlukan untuk menggunakan layanan?
+              <i class="fas fa-chevron-down text-[#0C356A] transition-transform duration-300"></i>
+            </summary>
+            <p class="mt-3 text-[#0C356A] text-xs sm:text-sm leading-relaxed">
+              Data yang diperlukan biasanya berupa data nilai siswa, data kehadiran, dan data profil siswa dalam format
+              digital.
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-lg p-4 sm:p-6 cursor-pointer border border-transparent hover:border-[#0C356A] transition">
+            <summary
+              class="text-[#0C356A] font-semibold text-sm sm:text-base list-none flex justify-between items-center">
+              Bagaimana keamanan data siswa dijamin?
+              <i class="fas fa-chevron-down text-[#0C356A] transition-transform duration-300"></i>
+            </summary>
+            <p class="mt-3 text-[#0C356A] text-xs sm:text-sm leading-relaxed">
+              EduCare menggunakan protokol keamanan standar industri untuk melindungi data siswa dan memastikan privasi
+              terjaga dengan baik.
+            </p>
+          </details>
+
+          <details
+            class="bg-white rounded-lg p-4 sm:p-6 cursor-pointer border border-transparent hover:border-[#0C356A] transition">
+            <summary
+              class="text-[#0C356A] font-semibold text-sm sm:text-base list-none flex justify-between items-center">
+              Seberapa akurat prediksi yang dihasilkan?
+              <i class="fas fa-chevron-down text-[#0C356A] transition-transform duration-300"></i>
+            </summary>
+            <p class="mt-3 text-[#0C356A] text-xs sm:text-sm leading-relaxed">
+              Prediksi yang dihasilkan didasarkan pada algoritma machine learning yang terus diperbarui untuk
+              meningkatkan akurasi sesuai data terbaru.
+            </p>
+          </details>
+        </section>
+      </section>
+
+      <!-- Tutorial Penggunaan Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 py-12 sm:py-16">
+        <h1 class="text-[#0C356A] font-extrabold text-2xl sm:text-3xl text-center mb-8 sm:mb-10 select-none">Tutorial
+          Penggunaan</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+          <!-- Card 1 -->
+          <section class="bg-white rounded-lg shadow-sm p-6 sm:p-8">
+            <i class="fas fa-file-alt text-[#0174BE] text-2xl sm:text-3xl mb-4 select-none"></i>
+            <h2 class="text-[#0C356A] font-semibold text-lg sm:text-xl mb-2 select-none">Panduan Upload Data</h2>
+            <p class="text-[#0C356A] text-xs sm:text-sm mb-6 select-none">
+              Pelajari cara mengunggah file Excel dengan format yang benar untuk setiap layanan
+            </p>
+            <ul class="space-y-3 text-[#0C356A] text-xs sm:text-sm">
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">1</span>
+                Unduh template Excel sesuai layanan yang dipilih
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">2</span>
+                Isi data siswa sesuai kolom yang tersedia
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">3</span>
+                Pastikan tidak ada data kosong atau format yang salah
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">4</span>
+                Upload file melalui halaman layanan
+              </li>
+            </ul>
+          </section>
+
+          <!-- Card 2 -->
+          <section class="bg-white rounded-lg shadow-sm p-6 sm:p-8">
+            <i class="fas fa-book-open text-[#0174BE] text-2xl sm:text-3xl mb-4 select-none"></i>
+            <h2 class="text-[#0C356A] font-semibold text-lg sm:text-xl mb-2 select-none">Memahami Hasil Analisis</h2>
+            <p class="text-[#0C356A] text-xs sm:text-sm mb-6 select-none">
+              Cara membaca dan menginterpretasikan hasil prediksi dan klasifikasi
+            </p>
+            <ul class="space-y-3 text-[#0C356A] text-xs sm:text-sm">
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">1</span>
+                Pahami metrik yang ditampilkan (akurasi, presisi, recall)
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">2</span>
+                Analisis hasil per siswa atau per kelompok
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">3</span>
+                Gunakan visualisasi untuk insight yang lebih baik
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">4</span>
+                Download laporan lengkap untuk dokumentasi
+              </li>
+            </ul>
+          </section>
+
+          <!-- Card 3 -->
+          <section class="bg-white rounded-lg shadow-sm p-6 sm:p-8">
+            <i class="fas fa-video text-[#0174BE] text-2xl sm:text-3xl mb-4 select-none"></i>
+            <h2 class="text-[#0C356A] font-semibold text-lg sm:text-xl mb-2 select-none">Implementasi Rekomendasi</h2>
+            <p class="text-[#0C356A] text-xs sm:text-sm mb-6 select-none">
+              Panduan menerapkan hasil analisis dalam strategi pengajaran
+            </p>
+            <ul class="space-y-3 text-[#0C356A] text-xs sm:text-sm">
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">1</span>
+                Identifikasi siswa yang memerlukan intervensi
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">2</span>
+                Buat rencana pembelajaran yang disesuaikan
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">3</span>
+                Monitor progress secara berkala
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 bg-[#FFC436] text-[#0C356A] font-semibold rounded-full w-6 h-6 flex items-center justify-center mr-3 select-none">4</span>
+                Evaluasi efektivitas intervensi
+              </li>
+            </ul>
+          </section>
         </div>
       </section>
 
-      <!-- Tutorial Penggunaan Kalkulator Section -->
-      <section class="py-16 sm:py-20 bg-gray-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="max-w-6xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 animate-fade-in">
-              <h2
-                class="text-3xl sm:text-4xl font-bold text-[#5a3219] text-center mb-4 animate-slide-in heading-underline">
-                Tutorial Penggunaan Kalkulator
-              </h2>
-              <p class="text-center text-gray-600 mb-8 sm:mb-10 text-base sm:text-lg">
-                Ikuti langkah-langkah berikut untuk menggunakan kalkulator
-                pajak
-              </p>
-              <div class="relative md:flex md:space-x-4 md:space-y-0 space-y-8 timeline-container">
-                <!-- Step 1 -->
-                <div class="timeline-step relative flex md:flex-col md:items-start flex-1 min-w-0 box-border">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#5a3219] to-[#7f5539] text-white rounded-full font-bold text-xl shadow-lg z-10 transform hover:scale-110 transition-all duration-300">
-                    1
-                  </div>
-                  <div class="ml-4 md:ml-0 md:mt-4 md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-8 h-8 text-[#7f5539] mb-2 md:mb-2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-1">
-                        Masukkan Penghasilan Bruto
-                      </h3>
-                      <p class="text-gray-600 text-base sm:text-lg">
-                        Input total penghasilan kotor per tahun sebelum
-                        dipotong pajak
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Step 2 -->
-                <div class="timeline-step relative flex md:flex-col md:items-start flex-1 min-w-0 box-border">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#5a3219] to-[#7f5539] text-white rounded-full font-bold text-xl shadow-lg z-10 transform hover:scale-110 transition-all duration-300">
-                    2
-                  </div>
-                  <div class="ml-4 md:ml-0 md:mt-4 md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-8 h-8 text-[#7f5539] mb-2 md:mb-2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
-                    </svg>
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-1">
-                        Pilih Status Pernikahan
-                      </h3>
-                      <p class="text-gray-600 text-base sm:text-lg">
-                        Pilih "Belum Kawin" atau "Kawin" sesuai status Anda
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Step 3 -->
-                <div class="timeline-step relative flex md:flex-col md:items-start flex-1 min-w-0 box-border">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#5a3219] to-[#7f5539] text-white rounded-full font-bold text-xl shadow-lg z-10 transform hover:scale-110 transition-all duration-300">
-                    3
-                  </div>
-                  <div class="ml-4 md:ml-0 md:mt-4 md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-8 h-8 text-[#7f5539] mb-2 md:mb-2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                    </svg>
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-1">
-                        Tentukan Jumlah Tanggungan
-                      </h3>
-                      <p class="text-gray-600 text-base sm:text-lg">
-                        Masukkan jumlah tanggungan (maksimal 3)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Step 4 -->
-                <div class="timeline-step relative flex md:flex-col md:items-start flex-1 min-w-0 box-border">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#5a3219] to-[#7f5539] text-white rounded-full font-bold text-xl shadow-lg z-10 transform hover:scale-110 transition-all duration-300">
-                    4
-                  </div>
-                  <div class="ml-4 md:ml-0 md:mt-4 md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-8 h-8 text-[#7f5539] mb-2 md:mb-2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                    </svg>
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-1">
-                        Input Biaya Jabatan
-                      </h3>
-                      <p class="text-gray-600 text-base sm:text-lg">
-                        Masukkan biaya yang dikeluarkan untuk menjalankan
-                        pekerjaan
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Step 5 -->
-                <div class="timeline-step relative flex md:flex-col md:items-start flex-1 min-w-0 box-border">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#5a3219] to-[#7f5539] text-white rounded-full font-bold text-xl shadow-lg z-10 transform hover:scale-110 transition-all duration-300">
-                    5
-                  </div>
-                  <div class="ml-4 md:ml-0 md:mt-4 md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-8 h-8 text-[#7f5539] mb-2 md:mb-2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                    </svg>
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-1">
-                        Masukkan Iuran Pensiun
-                      </h3>
-                      <p class="text-gray-600 text-base sm:text-lg">
-                        Input total iuran pensiun yang dibayar per tahun
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <!-- Step 6 -->
-                <div class="timeline-step relative flex md:flex-col md:items-start flex-1 min-w-0 box-border">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 flex items-center justify-center bg-gradient-to-br from-[#5a3219] to-[#7f5539] text-white rounded-full font-bold text-xl shadow-lg z-10 transform hover:scale-110 transition-all duration-300">
-                    6
-                  </div>
-                  <div class="ml-4 md:ml-0 md:mt-4 md:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" class="w-8 h-8 text-[#7f5539] mb-2 md:mb-2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
-                    </svg>
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-1">
-                        Klik Hitung Pajak
-                      </h3>
-                      <p class="text-gray-600 text-base sm:text-lg">
-                        Tekan tombol untuk mendapatkan hasil perhitungan
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- Pengenalan Fitur Lengkap Section -->
+      <section class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <h1 class="text-center font-extrabold text-2xl sm:text-3xl mb-8 sm:mb-10 text-[#0C356A]">Pengenalan Fitur
+          Lengkap</h1>
 
-      <!-- Informasi Penting Section -->
-      <section class="py-16 sm:py-20 bg-gradient-to-r from-[#fffcf2] to-gray-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 animate-fade-in">
-              <h2
-                class="text-3xl sm:text-4xl font-bold text-[#5a3219] text-center mb-4 animate-slide-in heading-underline">
-                Informasi Penting
-              </h2>
-              <p class="text-center text-gray-600 mb-8 sm:mb-10 text-base sm:text-lg">
-                Hal-hal yang perlu diperhatikan dalam perhitungan pajak
-              </p>
-              <div class="space-y-6">
-                <div
-                  class="bg-gradient-to-r from-[#fffcf2] to-white border-l-8 border-yellow-500 px-6 py-4 rounded-lg shadow-md w-full box-border transition-all duration-300 hover:shadow-lg">
-                  <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
-                    Peringatan
-                  </h3>
-                  <p class="text-gray-600 text-base sm:text-lg">
-                    Website ini hanya untuk keperluan kalkulasi estimasi
-                    pajak, bukan untuk pembayaran pajak resmi. Untuk
-                    pembayaran pajak resmi, gunakan kanal resmi Direktorat
-                    Jenderal Pajak.
-                  </p>
-                </div>
-                <div
-                  class="bg-gradient-to-r from-[#fffcf2] to-white border-l-8 border-blue-500 px-6 py-4 rounded-lg shadow-md w-full box-border transition-all duration-300 hover:shadow-lg">
-                  <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
-                    Pembayaran Tarif
-                  </h3>
-                  <p class="text-gray-600 text-base sm:text-lg">
-                    Tarif dan ketentuan pajak dapat berubah sesuai dengan
-                    peraturan terbaru. Pastikan untuk selalu mengecek
-                    peraturan pajak terkini dari sumber resmi.
-                  </p>
-                </div>
-                <div
-                  class="bg-gradient-to-r from-[#fffcf2] to-white border-l-8 border-green-500 px-6 py-4 rounded-lg shadow-md w-full box-border transition-all duration-300 hover:shadow-lg">
-                  <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
-                    Konsultasi
-                  </h3>
-                  <p class="text-gray-600 text-base sm:text-lg">
-                    Untuk kasus pajak yang kompleks atau spesifik, disarankan
-                    untuk berkonsultasi dengan konsultan pajak profesional
-                    atau menghubungi Kring Pajak 1500200.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <section
+          class="bg-white rounded-lg p-4 sm:p-6 mb-8 sm:mb-10 shadow-sm border border-transparent hover:border-transparent">
+          <h2 class="font-semibold text-base sm:text-lg mb-2 text-[#0C356A]">Prediksi Nilai Siswa</h2>
+          <p class="text-xs sm:text-sm mb-4 text-[#0C356A]">
+            Menggunakan algoritma regresi untuk memprediksi nilai akhir siswa berdasarkan data historis, kehadiran, dan
+            faktor-faktor lain yang mempengaruhi pembelajaran.
+          </p>
+          <p class="font-semibold mb-3 text-[#0C356A] text-sm sm:text-base">Manfaat Utama:</p>
+          <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-[#0C356A]">
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Identifikasi siswa yang berisiko gagal lebih awal</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Perencanaan intervensi yang lebih proaktif</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Alokasi sumber daya yang lebih efisien</span>
+            </li>
+          </ul>
+        </section>
+
+        <section
+          class="bg-white rounded-lg p-4 sm:p-6 mb-8 sm:mb-10 shadow-sm border border-transparent hover:border-transparent">
+          <h2 class="font-semibold text-base sm:text-lg mb-2 text-[#0C356A]">Klasifikasi At-Risk</h2>
+          <p class="text-xs sm:text-sm mb-4 text-[#0C356A]">
+            Sistem deteksi dini untuk mengidentifikasi siswa yang memerlukan perhatian khusus menggunakan model
+            klasifikasi machine learning.
+          </p>
+          <p class="font-semibold mb-3 text-[#0C356A] text-sm sm:text-base">Manfaat Utama:</p>
+          <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-[#0C356A]">
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Deteksi dini masalah akademik</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Prioritisasi bantuan berdasarkan tingkat risiko</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Meningkatkan tingkat kelulusan</span>
+            </li>
+          </ul>
+        </section>
+
+        <section
+          class="bg-white rounded-lg p-4 sm:p-6 mb-8 sm:mb-10 shadow-sm border border-transparent hover:border-transparent">
+          <h2 class="font-semibold text-base sm:text-lg mb-2 text-[#0C356A]">Segmentasi Siswa</h2>
+          <p class="text-xs sm:text-sm mb-4 text-[#0C356A]">
+            Pengelompokan siswa berdasarkan karakteristik belajar, kemampuan, dan kebutuhan menggunakan algoritma
+            clustering.
+          </p>
+          <p class="font-semibold mb-3 text-[#0C356A] text-sm sm:text-base">Manfaat Utama:</p>
+          <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-[#0C356A]">
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Pembelajaran yang lebih personal</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Strategi pengajaran yang disesuaikan</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Optimalisasi hasil belajar per kelompok</span>
+            </li>
+          </ul>
+        </section>
+
+        <section
+          class="bg-white rounded-lg p-4 sm:p-6 mb-8 sm:mb-10 shadow-sm border border-transparent hover:border-transparent">
+          <h2 class="font-semibold text-base sm:text-lg mb-2 text-[#0C356A]">Rekomendasi SPP</h2>
+          <p class="text-xs sm:text-sm mb-4 text-[#0C356A]">
+            Sistem objektif untuk merekomendasikan pembebasan atau keringanan SPP berdasarkan analisis multi-faktor.
+          </p>
+          <p class="font-semibold mb-3 text-[#0C356A] text-sm sm:text-base">Manfaat Utama:</p>
+          <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-[#0C356A]">
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Transparansi dalam pemberian bantuan</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Kriteria yang objektif dan adil</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <span class="mt-1 w-2 h-2 rounded-full bg-[#FFC436] flex-shrink-0"></span>
+              <span>Dokumentasi yang lengkap dan akuntabel</span>
+            </li>
+          </ul>
+        </section>
       </section>
     </main>
 
-    <!-- Footer (Hidden on Mobile, Visible on Tablet and Desktop) -->
-    <footer class="bg-[#5a3219] text-white py-6 hidden md:block">
-      <div class="container mx-auto px-6 text-center">
-        <p class="text-sm">© 2025 Teach. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="bg-[#0C356A] text-[#FFF0CE]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div class="flex flex-col items-start">
+          <a class="flex items-center space-x-2 mb-4" href="#">
+            <img src="img/logo.png" alt="Logo" width="120" height="40"
+              class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
+          </a>
+          <p class="text-xs sm:text-sm leading-relaxed max-w-xs">
+            Platform web terpadu yang dirancang untuk mengatasi tantangan sekolah menengah dalam pengelolaan data siswa
+            dan perencanaan intervensi belajar menggunakan pendekatan data-driven.
+          </p>
+        </div>
+        <div class="flex flex-col items-start">
+          <h3 class="font-semibold text-base sm:text-lg mb-4">Navigasi</h3>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li><a class="hover:underline" href="/">Home</a></li>
+            <li><a class="hover:underline" href="/layanan">Layanan</a></li>
+            <li><a class="hover:underline" href="/info">Info</a></li>
+          </ul>
+        </div>
+        <div class="flex flex-col items-start">
+          <h3 class="font-semibold text-base sm:text-lg mb-4">Kontak</h3>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-envelope text-[#FFC436]"></i>
+              <span>info@educare.com</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-phone-alt text-[#FFC436]"></i>
+              <span>+62 21 1234 5678</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-map-marker-alt text-[#FFC436]"></i>
+              <span>Jakarta, Indonesia</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto border-t border-[#0174BE] text-center py-4 text-xs sm:text-sm text-[#FFF0CE]">
+        © 2025 EduCare. All rights reserved.
       </div>
     </footer>
 
-    <!-- Bottom Navigation (Mobile Only) -->
-    <div class="bg-white p-4 shadow-lg fixed bottom-0 w-full z-10 md:hidden">
-      <div class="flex justify-around">
-        <a href="/" class="text-gray-700 flex flex-col items-center focus:outline-none hover:text-[#60351d]">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-          </svg>
-          <span class="text-sm">Home</span>
-        </a>
-        <a href="/kalkulator" class="text-gray-700 flex flex-col items-center focus:outline-none hover:text-[#60351d]">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z" />
-          </svg>
-          <span class="text-sm">Kalkulator</span>
-        </a>
-        <a href="/info" class="text-[#60351d] flex flex-col items-center focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-          </svg>
-          <span class="text-sm">Info</span>
-        </a>
-      </div>
-    </div>
+    <!-- JavaScript for Hamburger Menu -->
+    <script>
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('nav-menu');
+
+      hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('hidden');
+      });
+    </script>
   </div>
 </body>
 

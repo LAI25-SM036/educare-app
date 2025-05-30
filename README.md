@@ -1,6 +1,6 @@
-## Bayar Pajakku
+## Educare
 
-**Bayar Pajakku** adalah aplikasi yang dirancang untuk............
+**Educare** adalah aplikasi yang dirancang untuk............
 
 ## Struktur dan Fungsi File
 
@@ -11,7 +11,7 @@
 - **server.js**: Merupakan file utama yang menjalankan aplikasi server menggunakan Express.
 
 ## Cara Menjalankan Website
-Berikut adalah langkah-langkah untuk menjalankan aplikasi **Bayar Pajakku** di komputer Anda:
+Berikut adalah langkah-langkah untuk menjalankan aplikasi **Educare** di komputer Anda:
 
 ### Langkah 1: Buka Terminal
 - **Windows**: Buka **Command Prompt** atau **PowerShell**.
