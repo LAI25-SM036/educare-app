@@ -52,7 +52,7 @@ const modelController = {
 
       const inputColumns = Object.keys(data[0] || {});
       const missingColumns = requiredColumns.filter(
-        (col) => !inputColumns.includes(col),
+        (col) => !inputColumns.includes(col)
       );
       if (missingColumns.length > 0) {
         return res.status(400).json({
@@ -63,11 +63,11 @@ const modelController = {
 
       // Cari kolom Student (case-insensitive)
       const studentColumn = inputColumns.find(
-        (col) => col.toLowerCase() === "student",
+        (col) => col.toLowerCase() === "student"
       );
       if (!studentColumn) {
         console.warn(
-          "Warning: Kolom 'Student' tidak ditemukan di input Excel, menggunakan nilai default",
+          "Warning: Kolom 'Student' tidak ditemukan di input Excel, menggunakan nilai default"
         );
       }
 
@@ -97,7 +97,7 @@ const modelController = {
       const options = {
         mode: "text",
         scriptPath: path.join(__dirname, "../utils"),
-        pythonPath: "python",
+        pythonPath: "python3",
         args: [],
       };
 
@@ -111,9 +111,18 @@ const modelController = {
           resultData += message + "\n";
         });
 
+        pyshell.on("error", (err) => {
+          console.error("PythonShell error:", err);
+        });
+
+        pyshell.on("stderr", (stderr) => {
+          console.error("Python stderr:", stderr);
+        });
+
         pyshell.end((err) => {
           if (err) {
             console.error("Python Error:", err);
+            console.error("Python stderr output:", resultData);
             reject(err);
           } else {
             try {
@@ -174,7 +183,7 @@ const modelController = {
             data[index].Extracurricular_Activities_Yes,
           Motivation_Level_Low: data[index].Motivation_Level_Low,
           Motivation_Level_Medium: data[index].Motivation_Level_Medium,
-          Internet_Access_Yes: data[index].Internet_Access,
+          Internet_Access_Yes: data[index].Internet_Access_Yes,
           Family_Income_Low: data[index].Family_Income_Low,
           Family_Income_Medium: data[index].Family_Income_Medium,
           School_Type_Public: data[index].School_Type_Public,
@@ -197,11 +206,11 @@ const modelController = {
           .format("YYYYMMDD_HHmmss");
         const userPredictionsDir = path.join(
           __dirname,
-          "../../data/hasil/prediksi",
+          "../../data/hasil/prediksi"
         );
         const userPredictionFile = path.join(
           userPredictionsDir,
-          `predictions_${sessionId}_${timestampStr}.xlsx`,
+          `predictions_${sessionId}_${timestampStr}.xlsx`
         );
 
         // Pastikan direktori ada

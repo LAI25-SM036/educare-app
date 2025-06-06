@@ -13,6 +13,9 @@ RUN apt-get update && \
         libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*
 
+# Tambahkan symlink python3 ke python
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # ---- Instalasi Dependensi Python ----
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
