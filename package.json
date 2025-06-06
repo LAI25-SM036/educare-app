@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx @tailwindcss/cli -i ./src/css/input.css -o ./src/css/output.css --watch",
-    "start": "nodemon ./src/server.js",
+    "style": "npx @tailwindcss/cli -i ./src/css/input.css -o ./src/css/output.css --watch",
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
     "prettier": "prettier --write ."
   },
   "keywords": [],
