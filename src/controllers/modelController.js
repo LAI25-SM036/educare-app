@@ -294,21 +294,21 @@ const modelController = {
 
       // Validasi kolom yang diperlukan
       const requiredColumns = [
-        "n_sikap_A",
+        "n_sikap_a",
         "n_kejuruan",
-        "mother_work_Lainnya",
+        "mother_work_lainnya",
         "n_mat",
         "n_por",
         "n_agama",
         "n_bjawa",
-        "mother_salary_Sangat Rendah",
-        "father_salary_Tidak Berpenghasilan",
+        "mother_salary_sangat_rendah",
+        "father_salary_tidak_berpenghasilan",
         "n_bindo",
         "extracurricular_tidak",
-        "father_edu_SMP sederajat",
-        "father_work_Buruh",
-        "mother_salary_Cukup Rendah",
-        "mother_work_Buruh",
+        "father_edu_smp_sederajat",
+        "father_work_buruh",
+        "mother_salary_cukup_rendah",
+        "mother_work_buruh",
       ];
 
       const inputColumns = Object.keys(data[0] || {});
@@ -435,22 +435,22 @@ const modelController = {
         // Format data untuk Excel
         const excelData = classifications.map((cls, index) => ({
           ID: index + 1,
-          n_sikap_A: cls.n_sikap_A,
+          n_sikap_a: cls.n_sikap_a,
           n_kejuruan: cls.n_kejuruan,
-          mother_work_Lainnya: cls.mother_work_Lainnya,
+          mother_work_lainnya: cls.mother_work_lainnya,
           n_mat: cls.n_mat,
           n_por: cls.n_por,
           n_agama: cls.n_agama,
           n_bjawa: cls.n_bjawa,
-          mother_salary_Sangat_Rendah: cls.mother_salary_Sangat_Rendah,
-          father_salary_Tidak_Berpenghasilan:
-            cls.father_salary_Tidak_Berpenghasilan,
+          mother_salary_sangat_rendah: cls.mother_salary_sangat_rendah,
+          father_salary_tidak_berpenghasilan:
+            cls.father_salary_tidak_berpenghasilan,
           n_bindo: cls.n_bindo,
           extracurricular_tidak: cls.extracurricular_tidak,
-          father_edu_SMP_sederajat: cls.father_edu_SMP_sederajat,
-          father_work_Buruh: cls.father_work_Buruh,
-          mother_salary_Cukup_Rendah: cls.mother_salary_Cukup_Rendah,
-          mother_work_Buruh: cls.mother_work_Buruh,
+          father_edu_smp_sederajat: cls.father_edu_smp_sederajat,
+          father_work_buruh: cls.father_work_buruh,
+          mother_salary_cukup_rendah: cls.mother_salary_cukup_rendah,
+          mother_work_buruh: cls.mother_work_buruh,
           Predicted_Final_Score: cls.Predicted_Final_Score,
         }));
 

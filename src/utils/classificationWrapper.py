@@ -14,21 +14,21 @@ print(f"MODEL_PATH: {MODEL_PATH}")
 
 # Daftar kolom yang diharapkan oleh model
 expected_cols = [
-    "n_sikap_A",
+    "n_sikap_a",
     "n_kejuruan",
-    "mother_work_Lainnya",
+    "mother_work_lainnya",
     "n_mat",
     "n_por",
     "n_agama",
     "n_bjawa",
-    "mother_salary_Sangat Rendah",
-    "father_salary_Tidak Berpenghasilan",
+    "mother_salary_sangat_rendah",
+    "father_salary_tidak_berpenghasilan",
     "n_bindo",
     "extracurricular_tidak",
-    "father_edu_SMP sederajat",
-    "father_work_Buruh",
-    "mother_salary_Cukup Rendah",
-    "mother_work_Buruh",
+    "father_edu_smp_sederajat",
+    "father_work_buruh",
+    "mother_salary_cukup_rendah",
+    "mother_work_buruh",
 ]
 
 # Load model
