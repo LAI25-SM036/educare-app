@@ -67,7 +67,7 @@
             transition: all 0.3s ease;
         }
 
-        .stepper-circle.active {
+        .stepper-circle.active-step {
             background: linear-gradient(135deg, #0c3a6e, #0174BE);
         }
 
@@ -134,6 +134,174 @@
                 width: 100%;
             }
         }
+
+        .error-message {
+            display: none;
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Spinner styles */
+        .spinner {
+            display: none;
+        }
+
+        .spinner.active {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Enhanced Table Styles */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 12px;
+        }
+
+        #results-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            min-width: 1800px;
+            background: #ffffff;
+        }
+
+        #results-table thead th {
+            background: linear-gradient(135deg, #f8fafc, #e9ecef);
+            color: #0a2e61;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+            min-width: 100px;
+        }
+
+        #results-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        #results-table tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        #results-table tbody tr:hover {
+            background: #f1f5f9;
+        }
+
+        #results-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1f2937;
+            white-space: nowrap;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 639px) {
+            .stepper-container {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .stepper-circle {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 0.875rem;
+            }
+
+            .stepper-label {
+                font-size: 0.875rem;
+            }
+
+            .stepper-connector {
+                width: 2rem;
+            }
+
+            .stepper-item {
+                flex-shrink: 0;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.25rem;
+            }
+
+            /* Mobile table adjustments */
+            .table-container {
+                overflow-x: hidden;
+            }
+
+            #results-table {
+                display: block;
+                white-space: normal;
+                min-width: 100%;
+            }
+
+            #results-table thead,
+            #results-table tbody,
+            #results-table tr,
+            #results-table th,
+            #results-table td {
+                display: block;
+            }
+
+            #results-table thead {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            #results-table tbody tr {
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                background: #ffffff;
+            }
+
+            #results-table td {
+                border: none;
+                position: relative;
+                padding: 16px 16px 16px 50%;
+                text-align: right;
+                white-space: normal;
+                width: 100%;
+                box-sizing: border-box;
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+
+            #results-table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 16px;
+                width: 40%;
+                padding-right: 8px;
+                font-weight: 600;
+                color: #0a2e61;
+                text-align: left;
+                white-space: normal;
+                display: flex;
+                align-items: center;
+            }
+
+            #results-table td:not([data-label="ID"]):not([data-label="Nilai Sikap"]):not([data-label="Nilai Kejuruan"]):not([data-label="Prediksi Skor Akhir"]) {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -144,7 +312,7 @@
             <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-4">
                 <!-- Logo + Brand -->
                 <div class="flex items-center space-x-3">
-                    <img src="../img/logo.png" alt="Logo" width="120" height="40"
+                    <img src="/img/logo.png" alt="Logo" width="120" height="40"
                         class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
                 </div>
                 <!-- Navigation -->
@@ -183,7 +351,7 @@
 
         <!-- Main Content -->
         <main class="flex-grow">
-            <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-16">
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-2 sm:pb-2">
                 <a href="/layanan"
                     class="inline-flex items-center bg-white text-[#0a2e61] font-semibold text-sm rounded-md px-4 py-2 shadow-sm hover:bg-gray-100">
                     <i class="fas fa-arrow-left mr-2"></i>
@@ -192,45 +360,45 @@
                 <h1
                     class="mt-6 sm:mt-8 text-[#0a2e61] font-extrabold text-3xl sm:text-4xl leading-tight animate-slide-in">
                     Segmentasi Siswa</h1>
-                <p class="mt-3 sm:mt-4 text-gray-600 text-base sm:text-lg max-w-xl animate-slide-in">
+                <p class="mt-3 sm:mt-4 text-gray-600 text-base sm:text-lg mb-10">
                     Pengelompokan siswa berdasarkan karakteristik dan kebutuhan belajar yang serupa menggunakan
-                    algoritma
-                    clustering yang canggih.
+                    algoritma clustering yang canggih.
                 </p>
             </section>
-            <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-8 sm:pt-12 pb-12 sm:pb-16">
+            <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-8 sm:pb-16">
                 <!-- Stepper -->
-                <div class="flex justify-center items-center space-x-6 sm:space-x-12 mb-10 sm:mb-12 max-w-4xl mx-auto">
-                    <div class="flex items-center space-x-3 animate-slide-in">
+                <div
+                    class="flex justify-center items-center space-x-3 sm:space-x-12 mb-10 sm:mb-12 max-w-4xl mx-auto stepper-container">
+                    <div class="flex items-center space-x-2 sm:space-x-3 animate-slide-in stepper-item">
                         <div id="step1"
-                            class="w-12 h-12 rounded-full stepper-circle active text-white flex items-center justify-center font-bold text-base shadow-md">
+                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full stepper-circle active-step text-white flex items-center justify-center font-bold text-sm sm:text-base shadow-md">
                             1
                         </div>
-                        <span class="text-base font-semibold text-[#0c3a6e]">Upload Data</span>
+                        <span class="text-sm sm:text-base font-semibold text-[#0c3a6e] stepper-label">Upload</span>
                     </div>
-                    <div class="flex items-center">
-                        <div class="w-12 sm:w-20 border-t-2 border-[#0c3a6e] opacity-50"></div>
+                    <div class="flex items-center stepper-connector">
+                        <div class="w-8 sm:w-20 border-t-2 border-[#0c3a6e]"></div>
                     </div>
-                    <div class="flex items-center space-x-3 animate-slide-in">
+                    <div class="flex items-center space-x-2 sm:space-x-3 animate-slide-in stepper-item">
                         <div id="step2"
-                            class="w-12 h-12 rounded-full stepper-circle border-2 border-[#0c3a6e] text-[#0c3a6e] flex items-center justify-center font-bold text-base">
+                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full stepper-circle border-2 border-[#0c3a6e] text-[#0c3a6e] flex items-center justify-center font-bold text-sm sm:text-base">
                             2
                         </div>
-                        <span class="text-base font-medium text-gray-800">Proses</span>
+                        <span class="text-sm sm:text-base font-medium text-gray-800 stepper-label">Proses</span>
                     </div>
-                    <div class="flex items-center">
-                        <div class="w-12 sm:w-20 border-t-2 border-[#0c3a6e] opacity-50"></div>
+                    <div class="flex items-center stepper-connector">
+                        <div class="w-8 sm:w-20 border-t-2 border-[#0c3a6e]"></div>
                     </div>
-                    <div class="flex items-center space-x-3 animate-slide-in">
+                    <div class="flex items-center space-x-2 sm:space-x-3 animate-slide-in stepper-item">
                         <div id="step3"
-                            class="w-12 h-12 rounded-full stepper-circle border-2 border-[#0c3a6e] text-[#0c3a6e] flex items-center justify-center font-bold text-base">
+                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full stepper-circle border-2 border-[#0c3a6e] text-[#0c3a6e] flex items-center justify-center font-bold text-sm sm:text-base">
                             3
                         </div>
-                        <span class="text-base font-medium text-gray-800">Hasil</span>
+                        <span class="text-sm sm:text-base font-medium text-gray-800 stepper-label">Hasil</span>
                     </div>
                 </div>
                 <!-- Content -->
-                <div id="upload-section" class="flex flex-col md:flex-row md:space-x-8 max-w-7xl mx-auto">
+                <div id="upload-section" class="flex flex-col md:flex-row md:space-x-8 max-w-full mx-auto">
                     <!-- Left card -->
                     <section id="upload-card"
                         class="bg-white rounded-xl p-8 mb-8 md:mb-0 md:flex-1 max-w-xl mx-auto md:mx-0 card animate-scale-in">
@@ -239,65 +407,100 @@
                             <span>Upload File Excel</span>
                         </h2>
                         <p class="text-gray-600 text-sm mb-6 leading-relaxed">
-                            Unggah file Excel berisi data siswa sesuai template untuk analisis performa.
+                            Unggah file Excel berisi data siswa sesuai format template untuk analisis performa.
                         </p>
                         <label
-                            class="cursor-pointer border-2 border-dashed border-[#7db7d9] rounded-xl flex flex-col items-center justify-center py-16 mb-6 text-gray-600 hover:border-[#0174BE] hover:bg-[#f8fbff] transition"
+                            class="cursor-pointer border-2 border-dashed border-[#7db7d9] rounded-xl flex flex-col items-center justify-center py-16 mb-6 text-gray-600 hover:border-[#007bff] hover:bg-[#f8fbff] transition duration-300"
                             for="file-upload">
-                            <i class="fas fa-file-excel text-[#0174BE] text-4xl mb-4"></i>
+                            <i id="upload-icon" class="fas fa-file-excel text-[#0174BE] text-4xl mb-4"></i>
+                            <i id="upload-spinner" class="fas fa-spinner text-[#0174BE] text-4xl mb-4 spinner"></i>
                             <span id="upload-text" class="text-center text-sm font-medium max-w-xs">
                                 Klik untuk memilih file Excel atau drag & drop
                             </span>
                             <input class="hidden" id="file-upload" type="file" accept=".xlsx,.xls" />
                         </label>
+                        <div id="error-message" class="error-message"></div>
                         <button id="process-btn"
-                            class="w-full btn-primary text-white font-semibold py-3 rounded-md shadow-md" type="button"
-                            disabled>
-                            Mulai Proses Analisis
+                            class="w-full btn-primary text-white font-semibold py-2 rounded-md shadow-md flex items-center justify-center space-x-2"
+                            type="button" disabled>
+                            <span id="process-text">Mulai Proses Analisis</span>
+                            <i id="process-spinner" class="fas fa-spinner fa-spin hidden"></i>
                         </button>
                     </section>
                     <!-- Right card -->
                     <section id="template-card"
-                        class="bg-white rounded-xl p-8 md:flex-1 max-w-xl mx-auto md:mx-0 card animate-scale-in">
-                        <h2 class="text-xl font-bold mb-2 flex items-center space-x-3 text-[#0a2e61]">
-                            <i class="fas fa-file-alt text-[#0174BE] text-lg"></i>
+                        class="bg-white rounded-xl p-5 md:mt-0 mt-8 md:flex-1 max-w-xl mx-auto w-full md:w-auto card animate-scale-in">
+                        <h2 class="text-lg font-semibold mb-2 flex items-center space-x-3 text-[#0c3a6e]">
+                            <i class="fas fa-file-alt text-[#007bff]"></i>
                             <span>Template & Panduan</span>
                         </h2>
-                        <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            Pastikan data Anda sesuai dengan format berikut untuk hasil optimal.
+                        <p class="text-gray-600 text-sm mb-4 leading-tight">
+                            Pastikan data Anda sesuai dengan format berikut untuk hasil segmentasi optimal.
                         </p>
-                        <p class="font-semibold text-sm mb-3 text-[#0c3a6e]">
+                        <p class="font-semibold text-sm mb-3 text-[#007bff]">
                             Kolom yang diperlukan:
                         </p>
-                        <ul class="list-disc list-inside text-sm space-y-1 mb-6 text-gray-800">
+                        <ul class="list-disc list-inside text-sm space-y-1 mb-6 text-gray-600">
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>NIS
-                            </li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_sikap_A (Nilai Sikap,
+                                skala 0-1)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Nama
-                            </li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_kejuruan (Nilai Kejuruan,
+                                skala 0-2)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Nilai_UTS</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>mother_work_Lainnya
+                                (Pekerjaan Ibu: Lainnya, TRUE/FALSE atau 0/1)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Nilai_Tugas</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_mat (Nilai Matematika,
+                                skala 0-1)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Kehadiran</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_por (Nilai PPKn, skala
+                                0-2)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Nilai_UAS_Sebelumnya</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_agama (Nilai Agama, skala
+                                0-1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_bjawa (Nilai Bahasa Jawa,
+                                skala 0-1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>mother_salary_Sangat Rendah
+                                (Gaji Ibu Sangat Rendah, TRUE/FALSE atau 0/1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>father_salary_Tidak
+                                Berpenghasilan (Ayah Tidak Berpenghasilan, TRUE/FALSE atau 0/1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>n_bindo (Nilai Bahasa
+                                Indonesia, skala 0-1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>extracurricular_tidak
+                                (Tidak Ikut Ekstrakurikuler, TRUE/FALSE atau 0/1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>father_edu_SMP sederajat
+                                (Pendidikan Ayah SMP, TRUE/FALSE atau 0/1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>father_work_Buruh
+                                (Pekerjaan Ayah Buruh, TRUE/FALSE atau 0/1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>mother_salary_Cukup Rendah
+                                (Gaji Ibu Cukup Rendah, TRUE/FALSE atau 0/1)</li>
+                            <li class="flex items-center"><i
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>mother_work_Buruh
+                                (Pekerjaan Ibu Buruh, TRUE/FALSE atau 0/1)</li>
                         </ul>
                         <div class="bg-[#e9f1ff] border border-[#a7c1ff] rounded-lg p-5 mb-6 text-sm text-[#0c3a6e]">
                             <p class="font-semibold mb-2">Tips Penting:</p>
                             <ul class="list-disc list-inside space-y-1">
                                 <li>Jangan biarkan kolom kosong</li>
-                                <li>Gunakan format angka untuk nilai</li>
+                                <li>Gunakan format angka (0-100) untuk nilai akademik (misalnya, n_kejuruan, n_mat)</li>
+                                <li>Gunakan TRUE/FALSE atau 0/1 untuk kolom biner</li>
                                 <li>Simpan dalam format .xlsx atau .xls</li>
                             </ul>
                         </div>
-                        <button
-                            class="w-full btn-secondary bg-white border border-[#7db7d9] rounded-md py-3 font-semibold text-[#0c3a6e] shadow-sm"
-                            type="button">
+                        <a href="/layanan/segmentasi/template"
+                            class="w-full btn-secondary bg-white border border-[#7db7d9] rounded-md py-3 font-semibold text-[#0c3a6e] shadow-sm text-center block"
+                            download>
                             Download Template Excel
-                        </button>
+                        </a>
                     </section>
                 </div>
                 <!-- Processing Card -->
@@ -319,62 +522,48 @@
 
                 <!-- Results Card -->
                 <div id="results-section" class="max-w-7xl mx-auto px-6 pb-12 hidden">
-                    <section class="bg-white rounded-lg shadow-sm p-8 max-w-5xl mx-auto"
+                    <section class="bg-white rounded-lg shadow-sm p-8 max-w-full mx-auto"
                         aria-label="Hasil Analisis Section">
                         <h2 class="text-xl font-semibold flex items-center space-x-2 mb-2 text-gray-900">
                             <i class="fas fa-check-circle text-green-600"></i>
-                            <span>Hasil Analisis</span>
+                            <span>Hasil Segmentasi</span>
                         </h2>
                         <p class="text-gray-600 mb-8 text-sm max-w-[600px]">
-                            Berikut adalah hasil analisis untuk <span class="font-semibold">5</span> data teratas.
-                            Download laporan lengkap untuk melihat semua hasil.
+                            Berikut adalah hasil segmentasi untuk <span id="result-count" class="font-semibold">0</span>
+                            data teratas. Download laporan lengkap untuk melihat semua hasil.
                         </p>
-                        <table class="w-full text-gray-700 text-sm border-separate border-spacing-y-3">
-                            <thead>
-                                <tr class="border-b border-gray-200">
-                                    <th class="text-left font-semibold py-3 px-2 w-1/6">NIS</th>
-                                    <th class="text-left font-semibold py-3 px-2 w-2/6">Nama</th>
-                                    <th class="text-left font-semibold py-3 px-2 w-1/6">Prediksi Nilai</th>
-                                    <th class="text-left font-semibold py-3 px-2 w-1/6">Confidence</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 px-2 font-bold">2021001</td>
-                                    <td class="py-3 px-2">Ahmad Rizki</td>
-                                    <td class="py-3 px-2">85.5</td>
-                                    <td class="py-3 px-2">92%</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 px-2 font-bold">2021002</td>
-                                    <td class="py-3 px-2">Siti Nurhaliza</td>
-                                    <td class="py-3 px-2">78.2</td>
-                                    <td class="py-3 px-2">89%</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 px-2 font-bold">2021003</td>
-                                    <td class="py-3 px-2">Budi Santoso</td>
-                                    <td class="py-3 px-2">91</td>
-                                    <td class="py-3 px-2">95%</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 px-2 font-bold">2021004</td>
-                                    <td class="py-3 px-2">Maya Putri</td>
-                                    <td class="py-3 px-2">73.8</td>
-                                    <td class="py-3 px-2">87%</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-2 font-bold">2021005</td>
-                                    <td class="py-3 px-2">Doni Pratama</td>
-                                    <td class="py-3 px-2">82.3</td>
-                                    <td class="py-3 px-2">91%</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-container">
+                            <table id="results-table" class="w-full text-sm">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nilai Sikap</th>
+                                        <th>Nilai Kejuruan</th>
+                                        <th>Pekerjaan Ibu: Lainnya</th>
+                                        <th>Nilai Matematika</th>
+                                        <th>Nilai PPKn</th>
+                                        <th>Nilai Agama</th>
+                                        <th>Nilai Bahasa Jawa</th>
+                                        <th>Gaji Ibu Sangat Rendah</th>
+                                        <th>Ayah Tidak Berpenghasilan</th>
+                                        <th>Nilai Bahasa Indonesia</th>
+                                        <th>Tidak Ikut Ekstrakurikuler</th>
+                                        <th>Pendidikan Ayah SMP</th>
+                                        <th>Pekerjaan Ayah Buruh</th>
+                                        <th>Gaji Ibu Cukup Rendah</th>
+                                        <th>Pekerjaan Ibu Buruh</th>
+                                        <th>Prediksi Skor Akhir</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="results-tbody">
+                                    <!-- Data akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </section>
                     <div class="flex justify-center mt-8">
-                        <button type="button"
-                            class="bg-yellow-400 hover:bg-yellow-500 text-[#0c2f5a] font-semibold rounded-md px-6 py-3 flex items-center space-x-2">
+                        <button id="download-btn" type="button"
+                            class="bg-yellow-400 hover:bg-yellow-500 text-[#0c3a6e] font-semibold rounded-md px-6 py-3 flex items-center space-x-2">
                             <i class="fas fa-download"></i>
                             <span>Download Hasil Lengkap (Excel)</span>
                         </button>
@@ -388,14 +577,13 @@
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                 <div class="flex flex-col items-start">
-                    <a class="flex items-center space-x-2 mb-4" href="#">
-                        <img src="img/logo.png" alt="Logo" width="120" height="40"
+                    <a class="flex items-center space-x-2 mb-4" href="/">
+                        <img src="/img/logo.png" alt="Logo" width="120" height="40"
                             class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
                     </a>
                     <p class="text-xs sm:text-sm leading-relaxed max-w-xs">
                         Platform web terpadu yang dirancang untuk mengatasi tantangan sekolah menengah dalam pengelolaan
-                        data siswa
-                        dan perencanaan intervensi belajar menggunakan pendekatan data-driven.
+                        data siswa dan perencanaan intervensi belajar menggunakan pendekatan data-driven.
                     </p>
                 </div>
                 <div class="flex flex-col items-start">
@@ -415,7 +603,7 @@
                         </li>
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-phone-alt text-[#FFC436]"></i>
-                            <span>+62 21 1234 5678</span>
+                            <span>+6285702220093</span>
                         </li>
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-map-marker-alt text-[#FFC436]"></i>
@@ -429,13 +617,17 @@
             </div>
         </footer>
 
-        <!-- JavaScript for Hamburger Menu and File Upload -->
+        <!-- JavaScript for Frontend Integration -->
         <script>
             const hamburger = document.getElementById('hamburger');
             const navMenu = document.getElementById('nav-menu');
             const fileInput = document.getElementById('file-upload');
             const uploadText = document.getElementById('upload-text');
+            const uploadIcon = document.getElementById('upload-icon');
+            const uploadSpinner = document.getElementById('upload-spinner');
             const processBtn = document.getElementById('process-btn');
+            const processText = document.getElementById('process-text');
+            const processSpinner = document.getElementById('process-spinner');
             const uploadSection = document.getElementById('upload-section');
             const processingSection = document.getElementById('processing-section');
             const resultsSection = document.getElementById('results-section');
@@ -444,53 +636,198 @@
             const step2 = document.getElementById('step2');
             const step3 = document.getElementById('step3');
             const progressBar = document.getElementById('progress-bar');
+            const errorMessage = document.getElementById('error-message');
+            const resultsTbody = document.getElementById('results-tbody');
+            const resultCount = document.getElementById('result-count');
+            const downloadBtn = document.getElementById('download-btn');
 
+            // Hamburger menu toggle
             hamburger.addEventListener('click', () => {
                 navMenu.classList.toggle('hidden');
             });
 
+            // File input change handler
             fileInput.addEventListener('change', (event) => {
                 const file = event.target.files[0];
                 if (file) {
-                    uploadText.textContent = `File terpilih: ${file.name}`;
-                    processBtn.disabled = false;
+                    // Show spinner
+                    uploadIcon.classList.add('hidden');
+                    uploadSpinner.classList.add('active');
+                    uploadSpinner.classList.remove('hidden');
+
+                    // Simulate short delay for spinner
+                    setTimeout(() => {
+                        // Hide spinner, show check icon
+                        uploadSpinner.classList.remove('active');
+                        uploadSpinner.classList.add('hidden');
+                        uploadIcon.classList.remove('hidden');
+                        uploadIcon.classList.remove('fa-file-excel');
+                        uploadIcon.classList.add('fa-check', 'text-green-500');
+
+                        // Update text
+                        uploadText.textContent = `File terpilih: ${file.name}`;
+                        processBtn.disabled = false;
+                        errorMessage.style.display = 'none';
+                    }, 500);
                 } else {
+                    // Reset to initial state
+                    uploadIcon.classList.remove('hidden', 'fa-check', 'text-green-500');
+                    uploadIcon.classList.add('fa-file-excel', 'text-[#0174BE]');
+                    uploadSpinner.classList.remove('active');
+                    uploadSpinner.classList.add('hidden');
                     uploadText.textContent = 'Klik untuk memilih file Excel atau drag & drop';
                     processBtn.disabled = true;
                 }
             });
 
-            processBtn.addEventListener('click', () => {
+
+            // Process button click handler
+            processBtn.addEventListener('click', async () => {
                 const file = fileInput.files[0];
-                if (file) {
-                    uploadSection.classList.add('hidden');
-                    processingSection.classList.remove('hidden');
-                    fileNameDisplay.textContent = `Menganalisis ${file.name}...`;
+                if (!file) {
+                    errorMessage.textContent = 'Harap pilih file Excel terlebih dahulu';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+
+                // Show spinner on process button
+                processText.textContent = 'Memproses...';
+                processSpinner.classList.remove('hidden');
+                processBtn.disabled = true;
+
+                // Show processing section
+                uploadSection.classList.add('hidden');
+                processingSection.classList.remove('hidden');
+                fileNameDisplay.textContent = `Menganalisis ${file.name}...`;
+
+                // Update stepper
+                step1.classList.remove('active-step', 'text-white');
+                step1.classList.add('completed', 'text-white');
+                step1.innerHTML = '<i class="fas fa-check"></i>';
+                step2.classList.add('active-step', 'text-white');
+                step2.classList.remove('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
+
+                // Simulate progress bar
+                let progress = 0;
+                progressBar.value = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 1;
+                    progressBar.value = progress;
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                    }
+                }, 50);
+
+                // Send file to backend
+                const formData = new FormData();
+                formData.append('excelFile', file);
+
+                try {
+                    const response = await fetch('/layanan/segmentasi', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+
+                    clearInterval(progressInterval);
+                    progressBar.value = 100;
+
+                    // Hide process spinner
+                    processText.textContent = 'Mulai Proses Analisis';
+                    processSpinner.classList.add('hidden');
+                    processBtn.disabled = false;
+
+                    if (!result.success) {
+                        throw new Error(result.message || 'Gagal memproses file');
+                    }
+
+                    // Show results section
+                    processingSection.classList.add('hidden');
+                    resultsSection.classList.remove('hidden');
 
                     // Update stepper
-                    step1.classList.remove('active', 'text-white');
-                    step1.classList.add('completed', 'text-white');
-                    step1.innerHTML = '<i class="fas fa-check"></i>';
-                    step2.classList.add('active', 'text-white');
-                    step2.classList.remove('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
+                    step2.classList.remove('active-step', 'text-white');
+                    step2.classList.add('completed', 'text-white');
+                    step2.innerHTML = '<i class="fas fa-check"></i>';
+                    step3.classList.add('active-step', 'text-white');
+                    step3.classList.remove('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
 
-                    // Animate progress bar
-                    let progress = 0;
-                    progressBar.value = 0;
-                    const interval = setInterval(() => {
-                        progress += 1;
-                        progressBar.value = progress;
-                        if (progress >= 100) {
-                            clearInterval(interval);
-                            processingSection.classList.add('hidden');
-                            resultsSection.classList.remove('hidden');
-                            step2.classList.remove('active', 'text-white');
-                            step2.classList.add('completed', 'text-white');
-                            step2.innerHTML = '<i class="fas fa-check"></i>';
-                            step3.classList.add('active', 'text-white');
-                            step3.classList.remove('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
-                        }
-                    }, 50);
+                    // Populate results table
+                    const segmentation = result.data.slice(0, 5); // Show top 5
+                    resultCount.textContent = segmentation.length;
+                    resultsTbody.innerHTML = '';
+
+                    segmentation.forEach((seg, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td data-label="ID" class="font-bold">${index + 1}</td>
+                        <td data-label="Nilai Sikap">${seg.n_sikap_a.toFixed(2)}</td>
+                        <td data-label="Nilai Kejuruan">${seg.n_kejuruan.toFixed(2)}</td>
+                        <td data-label="Pekerjaan Ibu: Lainnya">${seg.mother_work_lainnya}</td>
+                        <td data-label="Nilai Matematika">${seg.n_mat.toFixed(2)}</td>
+                        <td data-label="Nilai PPKn">${seg.n_por.toFixed(2)}</td>
+                        <td data-label="Nilai Agama">${seg.n_agama.toFixed(2)}</td>
+                        <td data-label="Nilai Bahasa Jawa">${seg.n_bjawa.toFixed(2)}</td>
+                        <td data-label="Gaji Ibu Sangat Rendah">${seg.mother_salary_sangat_rendah}</td>
+                        <td data-label="Ayah Tidak Berpenghasilan">${seg.father_salary_tidak_berpenghasilan}</td>
+                        <td data-label="Nilai Bahasa Indonesia">${seg.n_bindo.toFixed(2)}</td>
+                        <td data-label="Tidak Ikut Ekstrakurikuler">${seg.extracurricular_tidak}</td>
+                        <td data-label="Pendidikan Ayah SMP">${seg.father_edu_smp_sederajat}</td>
+                        <td data-label="Pekerjaan Ayah Buruh">${seg.father_work_buruh}</td>
+                        <td data-label="Gaji Ibu Cukup Rendah">${seg.mother_salary_cukup_rendah}</td>
+                        <td data-label="Pekerjaan Ibu Buruh">${seg.mother_work_buruh}</td>
+                        <td data-label="Prediksi Cluster">${seg.Predicted_Cluster}</td>
+                    `;
+                        resultsTbody.appendChild(row);
+                    });
+
+                } catch (error) {
+                    clearInterval(progressInterval);
+                    processText.textContent = 'Mulai Proses Analisis';
+                    processSpinner.classList.add('hidden');
+                    processBtn.disabled = false;
+
+                    processingSection.classList.add('hidden');
+                    uploadSection.classList.remove('hidden');
+                    errorMessage.textContent = error.message.includes('Missing required columns')
+                        ? `File Excel tidak valid: ${error.message}. Harap gunakan template yang disediakan.`
+                        : 'Terjadi kesalahan saat memproses file. Pastikan file sesuai dengan template.';
+                    errorMessage.style.display = 'block';
+
+                    // Reset stepper
+                    step1.classList.add('active-step', 'text-white');
+                    step1.classList.remove('completed');
+                    step1.innerHTML = '1';
+                    step2.classList.remove('active-step', 'text-white');
+                    step2.classList.add('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
+                    step2.innerHTML = '2';
+                    step3.classList.remove('active-step', 'text-white');
+                    step3.classList.add('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
+                    step3.innerHTML = '3';
+                }
+            });
+
+            // Download button click handler
+            downloadBtn.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/layanan/segmentasi/download');
+                    if (!response.ok) {
+                        const result = await response.json();
+                        throw new Error(result.message || 'Gagal mengunduh file');
+                    }
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'student_segmentation.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                } catch (error) {
+                    errorMessage.textContent = error.message || 'Gagal mengunduh file hasil segmentasi';
+                    errorMessage.style.display = 'block';
                 }
             });
         </script>

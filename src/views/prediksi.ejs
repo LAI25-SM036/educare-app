@@ -67,7 +67,7 @@
             transition: all 0.3s ease;
         }
 
-        .stepper-circle.active {
+        .stepper-circle.active-step {
             background: linear-gradient(135deg, #0c3a6e, #0174BE);
         }
 
@@ -153,28 +153,39 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Enhanced Table Styles */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 12px;
+        }
+
         #results-table {
             border-collapse: separate;
             border-spacing: 0;
             width: 100%;
+            min-width: 1800px;
             background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         #results-table thead th {
             background: linear-gradient(135deg, #f8fafc, #e9ecef);
             color: #0a2e61;
             font-weight: 600;
-            padding: 16px;
+            padding: 12px 16px;
             text-align: left;
             border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+            min-width: 100px;
         }
 
         #results-table tbody tr {
@@ -190,34 +201,10 @@
         }
 
         #results-table td {
-            padding: 14px 16px;
+            padding: 12px 16px;
             border-bottom: 1px solid #e2e8f0;
             color: #1f2937;
-        }
-
-        /* Category Badge Styling */
-        .category-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-transform: capitalize;
-        }
-
-        .category-high {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .category-medium {
-            background: #fefce8;
-            color: #ca8a04;
-        }
-
-        .category-low {
-            background: #fee2e2;
-            color: #b91c1c;
+            white-space: nowrap;
         }
 
         /* Mobile responsiveness */
@@ -252,10 +239,14 @@
             }
 
             /* Mobile table adjustments */
+            .table-container {
+                overflow-x: hidden;
+            }
+
             #results-table {
                 display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+                white-space: normal;
+                min-width: 100%;
             }
 
             #results-table thead,
@@ -266,7 +257,7 @@
                 display: block;
             }
 
-            #results-table thead tr {
+            #results-table thead {
                 position: absolute;
                 top: -9999px;
                 left: -9999px;
@@ -282,19 +273,33 @@
             #results-table td {
                 border: none;
                 position: relative;
-                padding-left: 50%;
+                padding: 16px 16px 16px 50%;
                 text-align: right;
+                white-space: normal;
+                width: 100%;
+                box-sizing: border-box;
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
             }
 
             #results-table td:before {
                 content: attr(data-label);
                 position: absolute;
                 left: 16px;
-                width: 45%;
-                padding-right: 10px;
+                width: 40%;
+                padding-right: 8px;
                 font-weight: 600;
                 color: #0a2e61;
                 text-align: left;
+                white-space: normal;
+                display: flex;
+                align-items: center;
+            }
+
+            #results-table td:not([data-label="ID"]):not([data-label="Nama Siswa"]):not([data-label="Prediksi Nilai Ujian"]) {
+                display: none;
             }
         }
     </style>
@@ -361,10 +366,11 @@
             </section>
             <section class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-8 sm:pb-16">
                 <!-- Stepper -->
-                <div class="flex justify-center items-center space-x-3 sm:space-x-12 mb-10 sm:mb-12 max-w-4xl mx-auto stepper-container">
+                <div
+                    class="flex justify-center items-center space-x-3 sm:space-x-12 mb-10 sm:mb-12 max-w-4xl mx-auto stepper-container">
                     <div class="flex items-center space-x-2 sm:space-x-3 animate-slide-in stepper-item">
                         <div id="step1"
-                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full stepper-circle active text-white flex items-center justify-center font-bold text-sm sm:text-base shadow-md">
+                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full stepper-circle active-step text-white flex items-center justify-center font-bold text-sm sm:text-base shadow-md">
                             1
                         </div>
                         <span class="text-sm sm:text-base font-semibold text-[#0c3a6e] stepper-label">Upload</span>
@@ -422,7 +428,7 @@
                     </section>
                     <!-- Right card -->
                     <section id="template-card"
-                        class="bg-white rounded-xl p-5 md:mt-0 mt-8 md:flex-1 max-w-md mx-auto md:mx-0 card animate:shadow-md">
+                        class="bg-white rounded-xl p-5 md:mt-0 mt-8 md:flex-1 max-w-xl mx-auto md:mx-0 card animate-scale-in">
                         <h2 class="text-xl font-semibold mb-2 flex items-center space-x-3 text-[#0c3a6e]">
                             <i class="fas fa-file-alt text-[#007bff] text-lg"></i>
                             <span>Template & Panduan</span>
@@ -437,45 +443,65 @@
                             <li class="flex items-center"><i
                                     class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Student (Nama Siswa)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Hours_Studied (Jam Belajar)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Hours_Studied (Jam Belajar)
+                            </li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Attendance (Kehadiran, %)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Attendance (Kehadiran, %)
+                            </li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Sleep_Hours (Jam Tidur)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Sleep_Hours (Jam Tidur)
+                            </li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Previous_Scores (Nilai Sebelumnya)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Previous_Scores (Nilai
+                                Sebelumnya)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Tutoring_Sessions (Sesi Bimbingan)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Tutoring_Sessions (Sesi
+                                Bimbingan)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Physical_Activity (Aktivitas Fisik)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Physical_Activity
+                                (Aktivitas Fisik)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Parental_Involvement_Low (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Parental_Involvement_Low
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Parental_Involvement_Medium (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Parental_Involvement_Medium
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Access_to_Resources_Low (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Access_to_Resources_Low
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Access_to_Resources_Medium (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Access_to_Resources_Medium
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Extracurricular_Activities_Yes (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Extracurricular_Activities_Yes
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Motivation_Level_Low (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Motivation_Level_Low
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Motivation_Level_Medium (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Motivation_Level_Medium
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Internet_Access_Yes (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Internet_Access_Yes
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Family_Income_Low (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Family_Income_Low
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Family_Income_Medium (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Family_Income_Medium
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>School_Type_Public (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>School_Type_Public
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Peer_Influence_Neutral (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Peer_Influence_Neutral
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Peer_Influence_Positive (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Peer_Influence_Positive
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
-                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Learning_Disabilities_Yes (ya/tidak)</li>
+                                    class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Learning_Disabilities_Yes
+                                (ya/tidak)</li>
                             <li class="flex items-center"><i
                                     class="fas fa-circle text-[#FFC436] text-[8px] mr-2"></i>Gender_Male (ya/tidak)</li>
                         </ul>
@@ -522,22 +548,43 @@
                         </h2>
                         <p class="text-gray-600 mb-8 text-sm max-w-[600px]">
                             Berikut adalah hasil analisis untuk <span id="result-count" class="font-semibold">0</span>
-                            data teratas.
-                            Download laporan lengkap untuk melihat semua hasil.
+                            data teratas. Download laporan lengkap untuk melihat semua hasil.
                         </p>
-                        <table id="results-table" class="w-full text-sm">
-                            <thead>
-                                <tr>
-                                    <th class="w-1/6">ID</th>
-                                    <th class="w-2/6">Nama</th>
-                                    <th class="w-1/6">Prediksi Nilai</th>
-                                    <th class="w-1/6">Kategori</th>
-                                </tr>
-                            </thead>
-                            <tbody id="results-tbody">
-                                <!-- Data akan diisi oleh JavaScript -->
-                            </tbody>
-                        </table>
+                        <div class="table-container">
+                            <table id="results-table" class="w-full text-sm">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Siswa</th>
+                                        <th>Jam Belajar</th>
+                                        <th>Kehadiran (%)</th>
+                                        <th>Jam Tidur</th>
+                                        <th>Nilai Sebelumnya</th>
+                                        <th>Sesi Bimbingan</th>
+                                        <th>Aktivitas Fisik</th>
+                                        <th>Keterlibatan Orang Tua Rendah</th>
+                                        <th>Keterlibatan Orang Tua Sedang</th>
+                                        <th>Akses Sumber Daya Rendah</th>
+                                        <th>Akses Sumber Daya Sedang</th>
+                                        <th>Aktivitas Ekstrakurikuler</th>
+                                        <th>Motivasi Rendah</th>
+                                        <th>Motivasi Sedang</th>
+                                        <th>Akses Internet</th>
+                                        <th>Pendapatan Keluarga Rendah</th>
+                                        <th>Pendapatan Keluarga Sedang</th>
+                                        <th>Sekolah Negeri</th>
+                                        <th>Pengaruh Teman Netral</th>
+                                        <th>Pengaruh Teman Positif</th>
+                                        <th>Kesulitan Belajar</th>
+                                        <th>Jenis Kelamin Laki-laki</th>
+                                        <th>Prediksi Nilai Ujian</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="results-tbody">
+                                    <!-- Data akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </section>
                     <div class="flex justify-center mt-8">
                         <button id="download-btn" type="button"
@@ -555,7 +602,7 @@
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                 <div class="flex flex-col items-start">
-                    <a class="flex items-center space-x-2 mb-4" href="#">
+                    <a class="flex items-center space-x-2 mb-4" href="/">
                         <img src="/img/logo.png" alt="Logo" width="120" height="40"
                             class="object-contain animate-scale-in sm:w-[140px] sm:h-[45px]">
                     </a>
@@ -581,7 +628,7 @@
                         </li>
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-phone-alt text-[#FFC436]"></i>
-                            <span>+62 21 1234 5678</span>
+                            <span>+6285702220093</span>
                         </li>
                         <li class="flex items-center space-x-2">
                             <i class="fas fa-map-marker-alt text-[#FFC436]"></i>
@@ -631,11 +678,13 @@
                     // Show spinner
                     uploadIcon.classList.add('hidden');
                     uploadSpinner.classList.add('active');
+                    uploadSpinner.classList.remove('hidden');
 
-                    // Simulate short delay for spinner (since file selection is usually fast)
+                    // Simulate short delay for spinner
                     setTimeout(() => {
                         // Hide spinner, show check icon
                         uploadSpinner.classList.remove('active');
+                        uploadSpinner.classList.add('hidden');
                         uploadIcon.classList.remove('hidden');
                         uploadIcon.classList.remove('fa-file-excel');
                         uploadIcon.classList.add('fa-check', 'text-green-500');
@@ -644,12 +693,13 @@
                         uploadText.textContent = `File terpilih: ${file.name}`;
                         processBtn.disabled = false;
                         errorMessage.style.display = 'none';
-                    }, 500); // 500ms delay for visual feedback
+                    }, 500);
                 } else {
                     // Reset to initial state
                     uploadIcon.classList.remove('hidden', 'fa-check', 'text-green-500');
                     uploadIcon.classList.add('fa-file-excel', 'text-[#0174BE]');
                     uploadSpinner.classList.remove('active');
+                    uploadSpinner.classList.add('hidden');
                     uploadText.textContent = 'Klik untuk memilih file Excel atau drag & drop';
                     processBtn.disabled = true;
                 }
@@ -675,10 +725,10 @@
                 fileNameDisplay.textContent = `Menganalisis ${file.name}...`;
 
                 // Update stepper
-                step1.classList.remove('active', 'text-white');
+                step1.classList.remove('active-step', 'text-white');
                 step1.classList.add('completed', 'text-white');
                 step1.innerHTML = '<i class="fas fa-check"></i>';
-                step2.classList.add('active', 'text-white');
+                step2.classList.add('active-step', 'text-white');
                 step2.classList.remove('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
 
                 // Simulate progress bar
@@ -721,27 +771,44 @@
                     resultsSection.classList.remove('hidden');
 
                     // Update stepper
-                    step2.classList.remove('active', 'text-white');
+                    step2.classList.remove('active-step', 'text-white');
                     step2.classList.add('completed', 'text-white');
                     step2.innerHTML = '<i class="fas fa-check"></i>';
-                    step3.classList.add('active', 'text-white');
+                    step3.classList.add('active-step', 'text-white');
                     step3.classList.remove('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
 
                     // Populate results table
-                    const predictions = result.data.slice(0, 5); // Show top 5
+                    const predictions = result.data.slice(0, 5);
                     resultCount.textContent = predictions.length;
                     resultsTbody.innerHTML = '';
 
                     predictions.forEach((pred, index) => {
-                        const categoryClass = pred.score_category.toLowerCase() === 'high' ? 'category-high' :
-                                             pred.score_category.toLowerCase() === 'medium' ? 'category-medium' :
-                                             'category-low';
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td data-label="ID" class="font-bold">${index + 1}</td>
-                            <td data-label="Nama">${pred.student || 'Unknown'}</td>
-                            <td data-label="Prediksi Nilai">${pred.predicted_exam_score.toFixed(1)}</td>
-                            <td data-label="Kategori"><span class="category-badge ${categoryClass}">${pred.score_category}</span></td>
+                            <td data-label="Nama Siswa">${pred.student}</td>
+                            <td data-label="Jam Belajar">${pred.Hours_Studied}</td>
+                            <td data-label="Kehadiran (%)">${pred.Attendance}</td>
+                            <td data-label="Jam Tidur">${pred.Sleep_Hours}</td>
+                            <td data-label="Nilai Sebelumnya">${pred.Previous_Scores}</td>
+                            <td data-label="Sesi Bimbingan">${pred.Tutoring_Sessions}</td>
+                            <td data-label="Aktivitas Fisik">${pred.Physical_Activity}</td>
+                            <td data-label="Keterlibatan Orang Tua Rendah">${pred.Parental_Involvement_Low}</td>
+                            <td data-label="Keterlibatan Orang Tua Sedang">${pred.Parental_Involvement_Medium}</td>
+                            <td data-label="Akses Sumber Daya Rendah">${pred.Access_to_Resources_Low}</td>
+                            <td data-label="Akses Sumber Daya Sedang">${pred.Access_to_Resources_Medium}</td>
+                            <td data-label="Aktivitas Ekstrakurikuler">${pred.Extracurricular_Activities_Yes}</td>
+                            <td data-label="Motivasi Rendah">${pred.Motivation_Level_Low}</td>
+                            <td data-label="Motivasi Sedang">${pred.Motivation_Level_Medium}</td>
+                            <td data-label="Akses Internet">${pred.Internet_Access_Yes}</td>
+                            <td data-label="Pendapatan Keluarga Rendah">${pred.Family_Income_Low}</td>
+                            <td data-label="Pendapatan Keluarga Sedang">${pred.Family_Income_Medium}</td>
+                            <td data-label="Sekolah Negeri">${pred.School_Type_Public}</td>
+                            <td data-label="Pengaruh Teman Netral">${pred.Peer_Influence_Neutral}</td>
+                            <td data-label="Pengaruh Teman Positif">${pred.Peer_Influence_Positive}</td>
+                            <td data-label="Kesulitan Belajar">${pred.Learning_Disabilities_Yes}</td>
+                            <td data-label="Jenis Kelamin Laki-laki">${pred.Gender_Male}</td>
+                            <td data-label="Prediksi Nilai Ujian">${pred.predicted_exam_score.toFixed(2)}</td>
                         `;
                         resultsTbody.appendChild(row);
                     });
@@ -754,16 +821,21 @@
 
                     processingSection.classList.add('hidden');
                     uploadSection.classList.remove('hidden');
-                    errorMessage.textContent = error.message || 'Terjadi kesalahan saat memproses file';
+                    errorMessage.textContent = error.message.includes('Missing required columns')
+                        ? `File Excel tidak valid: ${error.message}. Harap gunakan template yang disediakan.`
+                        : 'Terjadi kesalahan saat memproses file. Pastikan file sesuai dengan template.';
                     errorMessage.style.display = 'block';
 
                     // Reset stepper
-                    step1.classList.add('active', 'text-white');
+                    step1.classList.add('active-step', 'text-white');
                     step1.classList.remove('completed');
                     step1.innerHTML = '1';
-                    step2.classList.remove('active', 'text-white');
+                    step2.classList.remove('active-step', 'text-white');
                     step2.classList.add('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
                     step2.innerHTML = '2';
+                    step3.classList.remove('active-step', 'text-white');
+                    step3.classList.add('border-2', 'border-[#0c3a6e]', 'text-[#0c3a6e]');
+                    step3.innerHTML = '3';
                 }
             });
 

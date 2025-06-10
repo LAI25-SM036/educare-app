@@ -9,9 +9,9 @@ Berikut adalah struktur direktori proyek beserta fungsi masing-masing komponen:
 - **data/**
 
   - **templates/**: Berisi file Excel template.
-  - **hasil/**: Berisi hasil pemrosesan model-model machine learning pada ditur layanan seperti `klasifikasi-model`, `prediksi-model`, `segmentasi-model`, dan `sistemRekomendasi-model`.
+  - **hasil/**: Berisi hasil pemrosesan model-model machine learning pada fitur layanan.
 
-- **models/** : Berisi model-model machine learning seperti `klasifikasi-model`, `prediksi-model`, `segmentasi-model`, dan `sistemRekomendasi-model`.
+- **models/** : Berisi model-model machine learning seperti `klasifikasi-model`, `prediksi-model`, `segmentasi-model`, dan `rekomendasi-model`.
 
 - **src/**
 

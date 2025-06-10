@@ -52,7 +52,7 @@ const modelController = {
 
       const inputColumns = Object.keys(data[0] || {});
       const missingColumns = requiredColumns.filter(
-        (col) => !inputColumns.includes(col)
+        (col) => !inputColumns.includes(col),
       );
       if (missingColumns.length > 0) {
         return res.status(400).json({
@@ -63,11 +63,11 @@ const modelController = {
 
       // Cari kolom Student (case-insensitive)
       const studentColumn = inputColumns.find(
-        (col) => col.toLowerCase() === "student"
+        (col) => col.toLowerCase() === "student",
       );
       if (!studentColumn) {
         console.warn(
-          "Warning: Kolom 'Student' tidak ditemukan di input Excel, menggunakan nilai default"
+          "Warning: Kolom 'Student' tidak ditemukan di input Excel, menggunakan nilai default",
         );
       }
 
@@ -97,7 +97,7 @@ const modelController = {
       const options = {
         mode: "text",
         scriptPath: path.join(__dirname, "../utils"),
-        pythonPath: "python3",
+        pythonPath: "python",
         args: [],
       };
 
@@ -156,16 +156,6 @@ const modelController = {
           throw new Error(`Prediction missing for row ${index}`);
         }
 
-        // Tentukan kategori skor
-        let score_category;
-        if (predicted_exam_score < 60) {
-          score_category = "Low";
-        } else if (predicted_exam_score >= 60 && predicted_exam_score < 80) {
-          score_category = "Medium";
-        } else {
-          score_category = "High";
-        }
-
         return {
           id: Date.now() + index,
           student: studentColumn ? row[studentColumn] : `Student_${index + 1}`,
@@ -192,7 +182,6 @@ const modelController = {
           Learning_Disabilities_Yes: data[index].Learning_Disabilities_Yes,
           Gender_Male: data[index].Gender_Male,
           predicted_exam_score,
-          score_category,
           created_at: timestamp,
           updated_at: timestamp,
         };
@@ -206,11 +195,11 @@ const modelController = {
           .format("YYYYMMDD_HHmmss");
         const userPredictionsDir = path.join(
           __dirname,
-          "../../data/hasil/prediksi"
+          "../../data/hasil/prediksi",
         );
         const userPredictionFile = path.join(
           userPredictionsDir,
-          `predictions_${sessionId}_${timestampStr}.xlsx`
+          `predictions_${sessionId}_${timestampStr}.xlsx`,
         );
 
         // Pastikan direktori ada
@@ -284,6 +273,634 @@ const modelController = {
       });
     } catch (error) {
       console.error("Error processing prediction:", error);
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+
+  createKlasifikasi: async (req, res) => {
+    try {
+      // Validasi file
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "No Excel file uploaded." });
+      }
+
+      // Baca file Excel
+      const workbook = xlsx.read(req.file.buffer, { type: "buffer" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      let data = xlsx.utils.sheet_to_json(sheet);
+
+      // Validasi kolom yang diperlukan
+      const requiredColumns = [
+        "n_sikap_A",
+        "n_kejuruan",
+        "mother_work_Lainnya",
+        "n_mat",
+        "n_por",
+        "n_agama",
+        "n_bjawa",
+        "mother_salary_Sangat Rendah",
+        "father_salary_Tidak Berpenghasilan",
+        "n_bindo",
+        "extracurricular_tidak",
+        "father_edu_SMP sederajat",
+        "father_work_Buruh",
+        "mother_salary_Cukup Rendah",
+        "mother_work_Buruh",
+      ];
+
+      const inputColumns = Object.keys(data[0] || {});
+      const missingColumns = requiredColumns.filter(
+        (col) => !inputColumns.includes(col),
+      );
+      if (missingColumns.length > 0) {
+        return res.status(400).json({
+          success: false,
+          message: `Missing required columns: ${missingColumns.join(", ")}`,
+        });
+      }
+
+      // Konversi data ke format numerik (0/1) untuk kolom boolean
+      const originalData = [...data];
+      data = data.map((row) => {
+        const cleanedRow = {};
+        requiredColumns.forEach((col) => {
+          let value = row[col];
+          // Konversi boolean (TRUE/FALSE) atau string ('ya'/'tidak') ke 0/1
+          if (typeof value === "boolean") {
+            value = value ? 1 : 0;
+          } else if (["ya", "tidak"].includes(value)) {
+            value = value === "ya" ? 1 : 0;
+          } else if (typeof value === "string") {
+            // Konversi string TRUE/FALSE ke 0/1
+            if (value.toLowerCase() === "true") value = 1;
+            else if (value.toLowerCase() === "false") value = 0;
+          }
+          cleanedRow[col] = value;
+        });
+        return cleanedRow;
+      });
+
+      // Siapkan input untuk model Python
+      const modelInput = data;
+
+      // Konfigurasi PythonShell
+      const options = {
+        mode: "text",
+        scriptPath: path.join(__dirname, "../utils"),
+        pythonPath: "python",
+        args: [],
+      };
+
+      // Jalankan skrip Python
+      const results = await new Promise((resolve, reject) => {
+        const pyshell = new PythonShell("classificationWrapper.py", options);
+        pyshell.send(JSON.stringify(modelInput));
+
+        let resultData = "";
+        pyshell.on("message", (message) => {
+          resultData += message + "\n";
+        });
+
+        pyshell.on("error", (err) => {
+          console.error("PythonShell error:", err);
+        });
+
+        pyshell.on("stderr", (stderr) => {
+          console.error("Python stderr:", stderr);
+        });
+
+        pyshell.end((err) => {
+          if (err) {
+            console.error("Python Error:", err);
+            console.error("Python stderr output:", resultData);
+            reject(err);
+          } else {
+            try {
+              const jsonMatch = resultData.match(/(\[\{.*\}\])/s);
+              if (jsonMatch && jsonMatch[1]) {
+                const parsedResult = JSON.parse(jsonMatch[1]);
+                resolve(parsedResult);
+              } else {
+                console.error("No valid JSON found in:", resultData);
+                reject(new Error("No valid JSON found in output"));
+              }
+            } catch (parseError) {
+              console.error("Error parsing Python output:", parseError);
+              reject(new Error("Failed to process classification result"));
+            }
+          }
+        });
+      });
+
+      if (!results || !Array.isArray(results)) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Model classification failed" });
+      }
+
+      // Proses hasil klasifikasi untuk setiap siswa
+      const classifications = originalData.map((row, index) => {
+        const predicted_final_score = results[index]?.predicted_final_score;
+        if (predicted_final_score === undefined) {
+          throw new Error(`Classification missing for row ${index}`);
+        }
+
+        return {
+          ...row,
+          Predicted_Final_Score: predicted_final_score,
+        };
+      });
+
+      // Simpan file Excel klasifikasi
+      try {
+        const sessionId = req.sessionID;
+        const timestampStr = dayjs()
+          .tz("Asia/Jakarta")
+          .format("YYYYMMDD_HHmmss");
+        const userClassificationsDir = path.join(
+          __dirname,
+          "../../data/hasil/klasifikasi",
+        );
+        const userClassificationFile = path.join(
+          userClassificationsDir,
+          `classifications_${sessionId}_${timestampStr}.xlsx`,
+        );
+
+        // Pastikan direktori ada
+        await fs.mkdir(userClassificationsDir, { recursive: true });
+
+        // Format data untuk Excel
+        const excelData = classifications.map((cls, index) => ({
+          ID: index + 1,
+          n_sikap_A: cls.n_sikap_A,
+          n_kejuruan: cls.n_kejuruan,
+          mother_work_Lainnya: cls.mother_work_Lainnya,
+          n_mat: cls.n_mat,
+          n_por: cls.n_por,
+          n_agama: cls.n_agama,
+          n_bjawa: cls.n_bjawa,
+          mother_salary_Sangat_Rendah: cls.mother_salary_Sangat_Rendah,
+          father_salary_Tidak_Berpenghasilan:
+            cls.father_salary_Tidak_Berpenghasilan,
+          n_bindo: cls.n_bindo,
+          extracurricular_tidak: cls.extracurricular_tidak,
+          father_edu_SMP_sederajat: cls.father_edu_SMP_sederajat,
+          father_work_Buruh: cls.father_work_Buruh,
+          mother_salary_Cukup_Rendah: cls.mother_salary_Cukup_Rendah,
+          mother_work_Buruh: cls.mother_work_Buruh,
+          Predicted_Final_Score: cls.Predicted_Final_Score,
+        }));
+
+        // Buat worksheet dan workbook
+        const worksheet = xlsx.utils.json_to_sheet(excelData);
+        const newWorkbook = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(newWorkbook, worksheet, "Sheet1");
+
+        // Tulis ke file Excel
+        await xlsx.writeFile(newWorkbook, userClassificationFile);
+        console.log(`Classifications saved to ${userClassificationFile}`);
+
+        // Simpan path file ke session
+        req.session.classificationFilePath = userClassificationFile;
+
+        // Jadwalkan penghapusan file setelah 1 jam (3600 detik)
+        setTimeout(async () => {
+          try {
+            await fs.unlink(userClassificationFile);
+            console.log(`File deleted after 1 hour: ${userClassificationFile}`);
+          } catch (err) {
+            console.error(
+              `Error deleting file ${userClassificationFile}:`,
+              err,
+            );
+          }
+        }, 3600 * 1000);
+      } catch (error) {
+        console.error("Error saving classification data to Excel:", error);
+        return res.status(400).json({
+          success: false,
+          message: "Failed to save classification data to Excel",
+        });
+      }
+
+      // Kembalikan respons
+      return res.status(201).json({
+        success: true,
+        data: classifications,
+        message: "Classifications created successfully.",
+      });
+    } catch (error) {
+      console.error("Error processing classification:", error);
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+
+  createSegmentasi: async (req, res) => {
+    try {
+      // Validasi file
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "No Excel file uploaded." });
+      }
+
+      // Baca file Excel
+      const workbook = xlsx.read(req.file.buffer, { type: "buffer" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      let data = xlsx.utils.sheet_to_json(sheet);
+
+      // Validasi kolom yang diperlukan
+      const requiredColumns = [
+        "n_kejuruan",
+        "n_mat",
+        "n_por",
+        "n_agama",
+        "n_bjawa",
+        "n_bindo",
+        "n_sikap_a",
+        "mother_work_lainnya",
+        "mother_salary_sangat_rendah",
+        "father_salary_tidak_berpenghasilan",
+        "extracurricular_tidak",
+        "father_edu_smp_sederajat",
+        "father_work_buruh",
+        "mother_salary_cukup_rendah",
+        "mother_work_buruh",
+      ];
+
+      const inputColumns = Object.keys(data[0] || {});
+      const missingColumns = requiredColumns.filter(
+        (col) => !inputColumns.includes(col),
+      );
+      if (missingColumns.length > 0) {
+        return res.status(400).json({
+          success: false,
+          message: `Missing required columns: ${missingColumns.join(", ")}`,
+        });
+      }
+
+      // Konversi data ke format numerik (0/1) untuk kolom boolean
+      const originalData = [...data];
+      data = data.map((row) => {
+        const cleanedRow = {};
+        requiredColumns.forEach((col) => {
+          let value = row[col];
+          // Konversi boolean (TRUE/FALSE) atau string ('ya'/'tidak') ke 0/1
+          if (typeof value === "boolean") {
+            value = value ? 1 : 0;
+          } else if (["ya", "tidak"].includes(value)) {
+            value = value === "ya" ? 1 : 0;
+          } else if (typeof value === "string") {
+            // Konversi string TRUE/FALSE ke 0/1
+            if (value.toLowerCase() === "true") value = 1;
+            else if (value.toLowerCase() === "false") value = 0;
+          }
+          cleanedRow[col] = value;
+        });
+        return cleanedRow;
+      });
+
+      // Siapkan input untuk model Python
+      const modelInput = data;
+
+      // Konfigurasi PythonShell
+      const options = {
+        mode: "text",
+        scriptPath: path.join(__dirname, "../utils"),
+        pythonPath: "python",
+        args: [],
+      };
+
+      // Jalankan skrip Python
+      const results = await new Promise((resolve, reject) => {
+        const pyshell = new PythonShell("segmentasiWrapper.py", options);
+        pyshell.send(JSON.stringify(modelInput));
+
+        let resultData = "";
+        pyshell.on("message", (message) => {
+          resultData += message + "\n";
+        });
+
+        pyshell.on("error", (err) => {
+          console.error("PythonShell error:", err);
+        });
+
+        pyshell.on("stderr", (stderr) => {
+          console.error("Python stderr:", stderr);
+        });
+
+        pyshell.end((err) => {
+          if (err) {
+            console.error("Python Error:", err);
+            console.error("Python stderr output:", resultData);
+            reject(err);
+          } else {
+            try {
+              const jsonMatch = resultData.match(/(\[\{.*\}\])/s);
+              if (jsonMatch && jsonMatch[1]) {
+                const parsedResult = JSON.parse(jsonMatch[1]);
+                resolve(parsedResult);
+              } else {
+                console.error("No valid JSON found in:", resultData);
+                reject(new Error("No valid JSON found in output"));
+              }
+            } catch (parseError) {
+              console.error("Error parsing Python output:", parseError);
+              reject(new Error("Failed to process segmentation result"));
+            }
+          }
+        });
+      });
+
+      if (!results || !Array.isArray(results)) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Model segmentation failed" });
+      }
+
+      // Proses hasil segmentasi untuk setiap siswa
+      const segmentations = originalData.map((row, index) => {
+        const predicted_cluster = results[index]?.predicted_cluster;
+        if (predicted_cluster === undefined) {
+          throw new Error(`Segmentation missing for row ${index}`);
+        }
+
+        return {
+          ...row,
+          Predicted_Cluster: predicted_cluster,
+        };
+      });
+
+      // Simpan file Excel segmentasi
+      try {
+        const sessionId = req.sessionID;
+        const timestampStr = dayjs()
+          .tz("Asia/Jakarta")
+          .format("YYYYMMDD_HHmmss");
+        const userSegmentationsDir = path.join(
+          __dirname,
+          "../../data/hasil/segmentasi",
+        );
+        const userSegmentationFile = path.join(
+          userSegmentationsDir,
+          `segmentations_${sessionId}_${timestampStr}.xlsx`,
+        );
+
+        // Pastikan direktori ada
+        await fs.mkdir(userSegmentationsDir, { recursive: true });
+
+        // Format data untuk Excel
+        const excelData = segmentations.map((seg, index) => ({
+          ID: index + 1,
+          n_kejuruan: seg.n_kejuruan,
+          n_mat: seg.n_mat,
+          n_por: seg.n_por,
+          n_agama: seg.n_agama,
+          n_bjawa: seg.n_bjawa,
+          n_bindo: seg.n_bindo,
+          n_sikap_a: seg.n_sikap_a,
+          mother_work_lainnya: seg.mother_work_lainnya,
+          mother_salary_sangat_rendah: seg.mother_salary_sangat_rendah,
+          father_salary_tidak_berpenghasilan:
+            seg.father_salary_tidak_berpenghasilan,
+          extracurricular_tidak: seg.extracurricular_tidak,
+          father_edu_smp_sederajat: seg.father_edu_smp_sederajat,
+          father_work_buruh: seg.father_work_buruh,
+          mother_salary_cukup_rendah: seg.mother_salary_cukup_rendah,
+          mother_work_buruh: seg.mother_work_buruh,
+          Predicted_Cluster: seg.Predicted_Cluster,
+        }));
+
+        // Buat worksheet dan workbook
+        const worksheet = xlsx.utils.json_to_sheet(excelData);
+        const newWorkbook = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(newWorkbook, worksheet, "Sheet1");
+
+        // Tulis ke file Excel
+        await xlsx.writeFile(newWorkbook, userSegmentationFile);
+        console.log(`Segmentations saved to ${userSegmentationFile}`);
+
+        // Simpan path file ke session
+        req.session.segmentationFilePath = userSegmentationFile;
+
+        // Jadwalkan penghapusan file setelah 1 jam (3600 detik)
+        setTimeout(async () => {
+          try {
+            await fs.unlink(userSegmentationFile);
+            console.log(`File deleted after 1 hour: ${userSegmentationFile}`);
+          } catch (err) {
+            console.error(`Error deleting file ${userSegmentationFile}:`, err);
+          }
+        }, 3600 * 1000);
+      } catch (error) {
+        console.error("Error saving segmentation data to Excel:", error);
+        return res.status(400).json({
+          success: false,
+          message: "Failed to save segmentation data to Excel",
+        });
+      }
+
+      // Kembalikan respons
+      return res.status(201).json({
+        success: true,
+        data: segmentations,
+        message: "Segmentations created successfully.",
+      });
+    } catch (error) {
+      console.error("Error processing segmentation:", error);
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  },
+
+  createRekomendasi: async (req, res) => {
+    try {
+      // Validasi file
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "No Excel file uploaded." });
+      }
+
+      // Baca file Excel
+      const workbook = xlsx.read(req.file.buffer, { type: "buffer" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      let data = xlsx.utils.sheet_to_json(sheet);
+
+      // Validasi kolom yang diperlukan
+      const requiredColumns = [
+        "student_id",
+        "interest_math",
+        "interest_physics",
+        "interest_chemistry",
+        "interest_biology",
+        "interest_history",
+        "interest_economics",
+        "interest_sociology",
+        "interest_geography",
+        "interest_informatics",
+      ];
+
+      const inputColumns = Object.keys(data[0] || {});
+      const missingColumns = requiredColumns.filter(
+        (col) => !inputColumns.includes(col),
+      );
+      if (missingColumns.length > 0) {
+        return res.status(400).json({
+          success: false,
+          message: `Missing required columns: ${missingColumns.join(", ")}`,
+        });
+      }
+
+      // Siapkan input untuk model Python
+      const modelInput = data.map((row) => ({
+        student_id: row.student_id,
+        interest_math: row.interest_math,
+        interest_physics: row.interest_physics,
+        interest_chemistry: row.interest_chemistry,
+        interest_biology: row.interest_biology,
+        interest_history: row.interest_history,
+        interest_economics: row.interest_economics,
+        interest_sociology: row.interest_sociology,
+        interest_geography: row.interest_geography,
+        interest_informatics: row.interest_informatics,
+      }));
+
+      // Konfigurasi PythonShell
+      const options = {
+        mode: "text",
+        scriptPath: path.join(__dirname, "../utils"),
+        pythonPath: "python",
+        args: [],
+      };
+
+      // Jalankan skrip Python
+      const results = await new Promise((resolve, reject) => {
+        const pyshell = new PythonShell("recommendationWrapper.py", options);
+        pyshell.send(JSON.stringify(modelInput));
+
+        let resultData = "";
+        pyshell.on("message", (message) => {
+          resultData += message + "\n";
+        });
+
+        pyshell.on("error", (err) => {
+          console.error("PythonShell error:", err);
+        });
+
+        pyshell.on("stderr", (stderr) => {
+          console.error("Python stderr:", stderr);
+        });
+
+        pyshell.end((err) => {
+          if (err) {
+            console.error("Python Error:", err);
+            reject(err);
+          } else {
+            try {
+              const jsonMatch = resultData.match(/(\[\{.*\}\])/s);
+              if (jsonMatch && jsonMatch[1]) {
+                const parsedResult = JSON.parse(jsonMatch[1]);
+                resolve(parsedResult);
+              } else {
+                console.error("No valid JSON found in:", resultData);
+                reject(new Error("No valid JSON found in output"));
+              }
+            } catch (parseError) {
+              console.error("Error parsing Python output:", parseError);
+              reject(new Error("Failed to process recommendation result"));
+            }
+          }
+        });
+      });
+
+      if (!results || !Array.isArray(results)) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Model recommendation failed" });
+      }
+
+      // Proses hasil rekomendasi
+      const timestamp = dayjs().tz("Asia/Jakarta").toISOString();
+      const recommendations = results.map((result, index) => ({
+        id: Date.now() + index,
+        student_id: result.student_id,
+        predicted_label: result.predicted_label,
+        predicted_package: result.predicted_package,
+        created_at: timestamp,
+        updated_at: timestamp,
+      }));
+
+      // Simpan file Excel rekomendasi
+      try {
+        const sessionId = req.sessionID;
+        const timestampStr = dayjs()
+          .tz("Asia/Jakarta")
+          .format("YYYYMMDD_HHmmss");
+        const userRecommendationsDir = path.join(
+          __dirname,
+          "../../data/hasil/rekomendasi",
+        );
+        const userRecommendationFile = path.join(
+          userRecommendationsDir,
+          `recommendations_${sessionId}_${timestampStr}.xlsx`,
+        );
+
+        // Pastikan direktori ada
+        await fs.mkdir(userRecommendationsDir, { recursive: true });
+
+        // Format data untuk Excel
+        const excelData = recommendations.map((rec, index) => ({
+          ID: index + 1,
+          Student_ID: rec.student_id,
+          Predicted_Label: rec.predicted_label,
+          Predicted_Package: rec.predicted_package,
+        }));
+
+        // Buat worksheet dan workbook
+        const worksheet = xlsx.utils.json_to_sheet(excelData);
+        const newWorkbook = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(newWorkbook, worksheet, "Sheet1");
+
+        // Tulis ke file Excel
+        await xlsx.writeFile(newWorkbook, userRecommendationFile);
+        console.log(`Recommendations saved to ${userRecommendationFile}`);
+
+        // Simpan path file ke session
+        req.session.recommendationFilePath = userRecommendationFile;
+
+        // Jadwalkan penghapusan file setelah 1 jam
+        setTimeout(async () => {
+          try {
+            await fs.unlink(userRecommendationFile);
+            console.log(`File deleted after 1 hour: ${userRecommendationFile}`);
+          } catch (err) {
+            console.error(
+              `Error deleting file ${userRecommendationFile}:`,
+              err,
+            );
+          }
+        }, 3600 * 1000);
+      } catch (error) {
+        console.error("Error saving recommendation data to Excel:", error);
+        return res.status(400).json({
+          success: false,
+          message: "Failed to save recommendation data to Excel",
+        });
+      }
+
+      // Kembalikan respons
+      return res.status(201).json({
+        success: true,
+        data: recommendations,
+        message: "Recommendations created successfully.",
+      });
+    } catch (error) {
+      console.error("Error processing recommendation:", error);
       return res.status(500).json({ success: false, message: error.message });
     }
   },
