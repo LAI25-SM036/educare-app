@@ -27,7 +27,7 @@ Berikut adalah struktur direktori proyek beserta fungsi masing-masing komponen:
     - `info.ejs`: Halaman informasi.
 
 - **server.js**: File utama yang menjalankan aplikasi server menggunakan Express.
-- **.env**: File untuk menyimpan variabel lingkungan, seperti konfigurasi port atau secret key untuk sesi.
+- **.env.example**: File contoh untuk konfigurasi variabel lingkungan, seperti port atau secret key untuk sesi.
 
 ## Cara Menjalankan Website di Local
 
@@ -38,7 +38,7 @@ Berikut adalah langkah-langkah untuk menjalankan aplikasi **Educare** di kompute
 Clone repositori proyek ke komputer Anda:
 
 ```bash
-git clone <URL_REPOSITORI>
+git clone https://github.com/LAI25-SM036/educare-app.git
 ```
 
 ### Langkah 2: Install Dependensi
@@ -49,9 +49,23 @@ Arahkan terminal ke folder proyek dan jalankan perintah berikut untuk menginstal
 npm install
 ```
 
-### Langkah 3: Konfigurasi Variabel Lingkungan
+### Langkah 3: Instal Dependensi Python
 
-Buat file `.env` di root proyek dan tambahkan konfigurasi berikut (sesuaikan jika perlu):
+Fitur pada proyek ini melibatkan pemrosesan machine learning, pastikan Anda memiliki Python terinstal, lalu instal dependensi Python berikut:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Langkah 4: Konfigurasi Variabel Lingkungan
+
+Salin file `.env.example` menjadi `.env` di root proyek:
+
+```bash
+cp .env.example .env
+```
+
+Kemudian, buka file `.env` dan sesuaikan konfigurasi berikut (jika perlu):
 
 ```env
 PORT=3000
@@ -61,7 +75,7 @@ SESSION_SECRET=your-secret-key
 - `PORT`: Port tempat aplikasi akan berjalan (default: 3000).
 - `SESSION_SECRET`: Kunci rahasia untuk sesi (ganti dengan string yang aman di produksi).
 
-### Langkah 4: Menjalankan Aplikasi
+### Langkah 5: Menjalankan Aplikasi
 
 Jalankan aplikasi dengan perintah berikut:
 
@@ -69,12 +83,92 @@ Jalankan aplikasi dengan perintah berikut:
 npm run start
 ```
 
-### Langkah 5: Buka Link Website
+### Langkah 6: Buka Link Website
 
 Buka browser dan akses:
 
 ```
 http://localhost:3000
+```
+
+## Cara Menjalankan Website Menggunakan Docker
+
+Berikut adalah langkah-langkah untuk menjalankan aplikasi **Educare** menggunakan Docker:
+
+### Langkah 1: Pastikan Docker Terinstal
+
+Pastikan Anda telah menginstal [Docker](https://www.docker.com/get-started) di komputer Anda.
+
+### Langkah 2: Clone Repositori (Jika Belum)
+
+Jika belum meng-clone repositori, lakukan dengan perintah:
+
+```bash
+git clone https://github.com/LAI25-SM036/educare-app.git
+```
+
+### Langkah 3: Konfigurasi Variabel Lingkungan
+
+Salin file `.env.example` menjadi `.env` di root proyek:
+
+```bash
+cp .env.example .env
+```
+
+Kemudian, edit file `.env` untuk memastikan konfigurasi berikut (sesuaikan jika perlu):
+
+```env
+PORT=5000
+SESSION_SECRET=cb1302c63faeb79b754e34cd355ad87e025f4fd3e86bdd98589a320192b0cfec
+NODE_ENV=production
+```
+
+Catatan: Port diatur ke `5000` sesuai dengan `Dockerfile`.
+
+### Langkah 4: Build Docker Image
+
+Arahkan terminal ke folder proyek yang berisi `Dockerfile`, lalu jalankan perintah berikut untuk membangun image Docker:
+
+```bash
+docker build -t educare-app .
+```
+
+- `-t educare-app`: Memberi nama image sebagai `educare-app`.
+- `.`: Menunjukkan bahwa `Dockerfile` ada di direktori saat ini.
+
+### Langkah 5: Jalankan Kontainer
+
+Jalankan kontainer dari image yang telah dibuat dengan perintah berikut:
+
+```bash
+docker run -d -p 5000:5000 --env-file .env educare-app
+```
+
+- `-d`: Menjalankan kontainer di latar belakang.
+- `-p 5000:5000`: Memetakan port 5000 di host ke port 5000 di kontainer.
+- `--env-file .env`: Menggunakan file `.env` untuk variabel lingkungan.
+- `educare-app`: Nama image yang dibuat.
+
+### Langkah 6: Buka Link Website
+
+Buka browser dan akses:
+
+```
+http://localhost:5000
+```
+
+### Langkah 7: Menghentikan Kontainer
+
+Untuk menghentikan kontainer, cari ID kontainer dengan perintah:
+
+```bash
+docker ps
+```
+
+Kemudian hentikan kontainer dengan:
+
+```bash
+docker stop <CONTAINER_ID>
 ```
 
 ## Kontribusi
